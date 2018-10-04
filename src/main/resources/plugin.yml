@@ -1,0 +1,8 @@
+name: MobarenaExtension
+version: ${project.version}
+author: Sait
+main: me.sait.mobarena.extension.MobArenaExtension
+depend:
+- MobArena
+softdepend:
+- MythicMobs
