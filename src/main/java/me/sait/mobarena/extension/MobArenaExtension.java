@@ -1,5 +1,6 @@
 package me.sait.mobarena.extension;
 
+import com.garbagemule.MobArena.ConfigError;
 import com.garbagemule.MobArena.MobArena;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.integration.mythicmob.MythicMobsSupport;
@@ -12,6 +13,7 @@ public final class MobArenaExtension extends JavaPlugin {
     private ConfigManager configManager;
     private MobArena mobArena;
     private String mobArenaPluginName = "MobArena";
+    private MythicMobsSupport mythicMobsSupport;
     private String mythicMobPluginName = "MythicMobs";
 
     @Override
@@ -45,15 +47,19 @@ public final class MobArenaExtension extends JavaPlugin {
     }
 
     private void initMythicMob() {
-        getLogger().info("Init mythic mob");
         if (configManager.isMythicMobEnabled()) {
             if (getServer().getPluginManager().getPlugin(mythicMobPluginName) == null) {
                 getLogger().severe("MythicMobs plugin can not be found. Install it or disable mythicmob extension in config");
                 getServer().getPluginManager().disablePlugin(this);
             }
 
-            MythicMobsSupport mythicMobsSupport = new MythicMobsSupport(mobArena);
+            mythicMobsSupport = new MythicMobsSupport(this, mobArena);
             mythicMobsSupport.registerMobs();
+            mythicMobsSupport.registerListeners();
+
+            try {
+                mobArena.reload(); //so that mob arena can parse mobs from mythicmobs
+            } catch (RuntimeException error) {}
         }
     }
 }
