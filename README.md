@@ -1,10 +1,9 @@
-# Mob Arena Extension
-[![CircleCI](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master.svg?style=svg)](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master)
+# Mob Arena Extension  [![CircleCI](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master.svg?style=svg)](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master)
 
 Extend the supporting for 3rd pt plugins or additional features
 
 ## Getting Started
-Download a snapshot from [Circle CI](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master) (from a successfully build, tab Artifacts). Install to your plugins folder. Make sure you dont forget to install MobArena as well
+Login and download a snapshot from [Circle CI](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master) (from a successfully build, tab Artifacts). Install to your plugins folder. Make sure you dont forget to install MobArena as well. You cant see artifacts if you dont login circleci
 
 `MythicMobs`
 * Install MythicMobs. Then create cool mobs ([docs](https://mythicmobs.net/manual/) on their offical website)
