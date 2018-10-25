@@ -40,10 +40,15 @@ jobs:
       # build package
       - run: |
           mvn clean package
+
+      # copy artifacts
+      - run: |
           mkdir ~/repo/build 
-          ls ~/repo/target 
+          cd ~/repo/target 
+          ls . 
+          grep '.jar'
           grep -v '^original' 
-          xargs cp -v *.jar -t ~/repo/build
+          xargs cp -t ~/repo/build
 
       # run tests!
       # - run: mvn integration-test
