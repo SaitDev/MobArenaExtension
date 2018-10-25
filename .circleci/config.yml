@@ -41,5 +41,7 @@ jobs:
       - run: mvn integration-test
 
       # keep artifacts
+      - run: mkdir build | ls target | grep -v '^original' | xargs cp -v *.jar -t build
       - store_artifacts:
-        path: /target/*.jar
+        path: /target
+        destination: snapshots
