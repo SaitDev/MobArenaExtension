@@ -2,6 +2,7 @@ package me.sait.mobarena.extension.integration.mythicmob;
 
 import com.garbagemule.MobArena.MobArena;
 import com.garbagemule.MobArena.framework.Arena;
+import com.garbagemule.MobArena.waves.MACreature;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
 import me.sait.mobarena.extension.MobArenaExtension;
@@ -16,6 +17,7 @@ public class MythicMobsSupport {
     private MobArenaExtension extension;
     private MobArena mobArena;
     private Map<Arena, List<Entity>> cachedMythicMobs = new HashMap();
+    private List<MythicMob> registeredMobs = new ArrayList();
 
     public MythicMobsSupport(MobArenaExtension extension, MobArena mobArena) {
         this.extension = extension;
@@ -29,14 +31,12 @@ public class MythicMobsSupport {
 
     public void registerMobs() {
         Collection<MythicMob> mmMobs = MythicMobs.inst().getMobManager().getMobTypes();
-//        System.out.println(MythicMobs.inst().getMobManager().get);
         for (MythicMob mob : mmMobs) {
-//            System.out.println(mob.getDisplayName());
-//            System.out.println(mob.getFileName());
-//            System.out.println(mob.getInternalName());
-//            System.out.println(mob.getEntityType());
-//            System.out.println(mob.getMythicEntity());
+            if (MACreature.fromString(mob.getInternalName()) != null) {
+                throw new RuntimeException("Can not register mythic mobs with similar name: " + mob.getInternalName());
+            }
             new MythicMobCreature(this, mob);
+            registeredMobs.add(mob);
         }
     }
 
