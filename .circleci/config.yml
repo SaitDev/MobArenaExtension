@@ -38,13 +38,17 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # build package
-      - run: mvn clean package
+      - run: |
+          mvn clean package
+          mkdir build 
+          ls ~/repo/target 
+          grep -v '^original' 
+          xargs cp -v *.jar -t build
 
       # run tests!
       # - run: mvn integration-test
 
       # keep artifacts
-      - run: mkdir build | ls ~/repo/target | grep -v '^original' | xargs cp -v *.jar -t build
       - store_artifacts:
           path: /build
           destination: snapshots
