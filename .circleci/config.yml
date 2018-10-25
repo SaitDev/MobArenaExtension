@@ -47,7 +47,7 @@ jobs:
           ls . | 
           grep '.jar' | 
           grep -v '^original' | 
-          xargs cp -t ~/repo/build |
+          xargs cp -t ~/repo/build
 
       # run tests!
       # - run: mvn integration-test
