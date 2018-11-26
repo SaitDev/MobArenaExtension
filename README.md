@@ -19,3 +19,9 @@ Next support plugins PlaceholderAPI, Denizen
 * This is a bug from MythicMob itself, when mob A spawn a minion B --> B has parent that is A. This is intended behaviour, but when using skill `Summon` without radius or radius = 0, A wont be B's parent. Always use summon radius higher than 0 if you plan to use that in MobArena
 
 3 first issues will need to wait for the next MobArena [major patch](https://github.com/garbagemule/MobArena/projects/5)
+
+
+## License
+The license does not apply to files inside folder /libs
+
+[MIT](/LICENSE)

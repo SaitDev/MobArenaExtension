@@ -1,4 +1,4 @@
-name: MobarenaExtension
+name: ${project.name}
 version: ${project.version}
 author: Sait
 main: me.sait.mobarena.extension.MobArenaExtension

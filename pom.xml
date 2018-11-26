@@ -5,17 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.sait</groupId>
-    <artifactId>mobarena.extension</artifactId>
+    <artifactId>mobarena-extension</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>MobarenaExtension</name>
+    <name>MobArenaExtension</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
+        <finalName>MobArenaExtension-${version}</finalName>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>

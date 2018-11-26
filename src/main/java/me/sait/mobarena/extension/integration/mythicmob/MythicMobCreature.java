@@ -5,6 +5,8 @@ import com.garbagemule.MobArena.waves.MACreature;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.api.exceptions.InvalidMobTypeException;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
+import me.sait.mobarena.extension.log.LogHelper;
+import me.sait.mobarena.extension.log.LogLevel;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -31,6 +33,7 @@ public class MythicMobCreature extends MACreature {
                 mythicMobsSupport.arenaSpawnMythicMob(arena, mMob);
                 return (LivingEntity)mMob;
             } else {
+                LogHelper.log("Mythic mob is not a living entity, cant spawn in Mob arena", LogLevel.DETAIL);
                 return null;
             }
         } catch (InvalidMobTypeException e) {

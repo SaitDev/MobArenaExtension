@@ -8,12 +8,14 @@ import io.lumine.xikage.mythicmobs.mobs.MythicMob;
 import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.integration.mythicmob.listeners.MobArenaListener;
 import me.sait.mobarena.extension.integration.mythicmob.listeners.MythicMobListener;
+import me.sait.mobarena.extension.log.LogHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 
 import java.util.*;
 
 public class MythicMobsSupport {
+    public static final String pluginName = "MythicMobs";
     private MobArenaExtension extension;
     private MobArena mobArena;
     private Map<Arena, List<Entity>> cachedMythicMobs = new HashMap();
@@ -33,7 +35,7 @@ public class MythicMobsSupport {
         Collection<MythicMob> mmMobs = MythicMobs.inst().getMobManager().getMobTypes();
         for (MythicMob mob : mmMobs) {
             if (MACreature.fromString(mob.getInternalName()) != null) {
-                throw new RuntimeException("Can not register mythic mobs with similar name: " + mob.getInternalName());
+                throw new IllegalArgumentException("Can not register mythic mobs with similar name: " + mob.getInternalName());
             }
             new MythicMobCreature(this, mob);
             registeredMobs.add(mob);
@@ -46,6 +48,7 @@ public class MythicMobsSupport {
         }
 
         cachedMythicMobs.get(arena).add(entity);
+        LogHelper.debug("A mythic mob spawned inside mob arena: " + entity.getCustomName());
     }
 
     public void arenaEnd(Arena arena) {

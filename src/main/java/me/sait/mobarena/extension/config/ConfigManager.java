@@ -1,6 +1,7 @@
 package me.sait.mobarena.extension.config;
 
 import me.sait.mobarena.extension.MobArenaExtension;
+import me.sait.mobarena.extension.log.LogHelper;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -8,6 +9,7 @@ public class ConfigManager {
     private static MobArenaExtension plugin;
     private static FileConfiguration fileConfig;
     private static boolean initialized;
+    private static String mythicMobPrefix = "mythicmob";
 
     public ConfigManager(MobArenaExtension plugin) {
         this.plugin = plugin;
@@ -15,13 +17,22 @@ public class ConfigManager {
         initialized = true;
     }
 
+    public void reload() {
+        this.fileConfig = plugin.getConfig();
+    }
+
     //General
+
+    public static Integer getLogLevel() {
+        if (!initialized) return null;
+        return generalSettings().getInt("log-level", LogHelper.defaulLevel.ordinal());
+    }
 
     //Extension
 
     public static Boolean isMythicMobEnabled() {
         if (!initialized) return null;
-        return extensionSettings().getBoolean("mythicmob.enable", false);
+        return extensionSettings().getBoolean(mythicMobPrefix + ".enable", false);
     }
 
     //Section

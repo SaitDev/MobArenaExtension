@@ -1,3 +1,5 @@
+general:
+  log-level: 2
 extension:
   mythicmob:
-    enable: true
+    enable: false

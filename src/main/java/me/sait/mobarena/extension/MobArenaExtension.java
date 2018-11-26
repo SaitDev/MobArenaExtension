@@ -1,10 +1,10 @@
 package me.sait.mobarena.extension;
 
-import com.garbagemule.MobArena.ConfigError;
 import com.garbagemule.MobArena.MobArena;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.integration.mythicmob.MythicMobsSupport;
-import org.bukkit.plugin.Plugin;
+import me.sait.mobarena.extension.log.LogHelper;
+import me.sait.mobarena.extension.log.LogLevel;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -14,7 +14,10 @@ public final class MobArenaExtension extends JavaPlugin {
     private MobArena mobArena;
     private String mobArenaPluginName = "MobArena";
     private MythicMobsSupport mythicMobsSupport;
-    private String mythicMobPluginName = "MythicMobs";
+
+    public static MobArenaExtension getPlugin() {
+        return getPlugin(MobArenaExtension.class);
+    }
 
     @Override
     public void onEnable() {
@@ -31,15 +34,26 @@ public final class MobArenaExtension extends JavaPlugin {
     }
 
     private void setupConfig() {
-        if (!getDataFolder().exists()) {
+        loadDefaultConfig();
+        configManager = new ConfigManager(this);
+    }
+
+    private void loadDefaultConfig() {
+        boolean pluginFolderNotexists = !getDataFolder().exists();
+        if (pluginFolderNotexists) {
             getDataFolder().mkdirs();
         }
         File file = new File(getDataFolder(), "config.yml");
-        if (!file.exists()) {
-            getLogger().info("config.yml not found, creating new one!");
+        if (pluginFolderNotexists || !file.exists()) {
+            LogHelper.info("config.yml not found, creating new one!");
             saveDefaultConfig();
         }
-        configManager = new ConfigManager(this);
+    }
+
+    private void reload() {
+        loadDefaultConfig();
+        reloadConfig();
+        configManager.reload();
     }
 
     private void initMobArena() {
@@ -48,8 +62,12 @@ public final class MobArenaExtension extends JavaPlugin {
 
     private void initMythicMob() {
         if (configManager.isMythicMobEnabled()) {
-            if (getServer().getPluginManager().getPlugin(mythicMobPluginName) == null) {
-                getLogger().severe("MythicMobs plugin can not be found. Install it or disable mythicmob extension in config");
+            LogHelper.log("Init mythic mob", LogLevel.DETAIL);
+            if (getServer().getPluginManager().getPlugin(MythicMobsSupport.pluginName) == null) {
+                LogHelper.log(
+                        "MythicMobs plugin can not be found. Install it or disable mythicmob extension in config",
+                        LogLevel.CRITICAL
+                );
                 getServer().getPluginManager().disablePlugin(this);
             }
 
