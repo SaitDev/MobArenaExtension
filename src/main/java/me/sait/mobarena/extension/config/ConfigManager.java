@@ -11,6 +11,7 @@ public class ConfigManager {
     private static boolean initialized;
     private static final String mythicMobPrefix = "mythicmob";
     private static final String placeholderAPIPrefix = "placeholderapi";
+    private static final String discordSrvPrefix = "discordsrv";
     private static final String enableSetting = ".enable";
 
     public ConfigManager(MobArenaExtension plugin) {
@@ -44,6 +45,11 @@ public class ConfigManager {
     public static Boolean isPlaceholderAPIEnabled() {
         if (!initialized) return null;
         return extensionSettings().getBoolean(placeholderAPIPrefix + enableSetting, false);
+    }
+
+    public static Boolean isDiscordSrvEnabled() {
+        if (!initialized) return null;
+        return extensionSettings().getBoolean(discordSrvPrefix + enableSetting, false);
     }
 
     //Section

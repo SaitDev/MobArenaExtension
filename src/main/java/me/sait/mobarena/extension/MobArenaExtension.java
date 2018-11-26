@@ -17,6 +17,7 @@ public final class MobArenaExtension extends JavaPlugin {
     private MobArena mobArena;
     private MythicMobsSupport mythicMobsSupport;
     private PlaceholderAPISupport placeholderAPISupport;
+    private DiscordSrvSupport discordSrvSupport;
 
     public static MobArenaExtension getPlugin() {
         return getPlugin(MobArenaExtension.class);
@@ -29,12 +30,14 @@ public final class MobArenaExtension extends JavaPlugin {
         initMobArena();
         initMythicMob();
         initPlaceholderAPI();
+        initDiscordSrv();
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        //TODO - clear browser history before leaving computer
+        //TODO - unregister listeners
+        disableDiscordSrv();
     }
 
     private void setupConfig() {
@@ -101,6 +104,31 @@ public final class MobArenaExtension extends JavaPlugin {
 
             placeholderAPISupport = new PlaceholderAPISupport(this, mobArena);
             placeholderAPISupport.register();
+        }
+    }
+
+    private void initDiscordSrv() {
+        if (configManager.isDiscordSrvEnabled()) {
+            LogHelper.log("Init discordsrv", LogLevel.DETAIL);
+            if (!getServer().getPluginManager().isPluginEnabled(DiscordSrvSupport.pluginName)) {
+                LogHelper.log(
+                        "DiscordSRV plugin can not be found. Install it or disable discordsrv extension in config",
+                        LogLevel.CRITICAL
+                );
+                getServer().getPluginManager().disablePlugin(this);
+            }
+
+            discordSrvSupport = new DiscordSrvSupport(mobArena);
+            discordSrvSupport.onEnable();
+        }
+    }
+
+    private void disableDiscordSrv() {
+        if (configManager.isDiscordSrvEnabled() &&
+                getServer().getPluginManager().isPluginEnabled(DiscordSrvSupport.pluginName) &&
+                discordSrvSupport != null
+        ) {
+            discordSrvSupport.onDisable();
         }
     }
 }
