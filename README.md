@@ -3,12 +3,27 @@
 Extend the supporting for 3rd pt plugins or additional features
 
 ## Getting Started
-Login and download a snapshot from [Circle CI](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master) (from a successfully build, tab Artifacts). Install to your plugins folder. Make sure you dont forget to install MobArena as well. You cant see artifacts if you dont login circleci
+* Login and download a snapshot from [Circle CI](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master) (from a successfully build, tab Artifacts). You cant see artifacts if you dont login circleci. Install to your plugins folder. Make sure you dont forget to install MobArena as well
+* Enable which module you wanna in `plugins/MobArenaExtension/config.yml`
+
+
+### Supported Plugins
 
 `MythicMobs`
 * Install MythicMobs. Then create cool mobs ([docs](https://mythicmobs.net/manual/) on their offical website)
 * Restart your server (see [Known issues](#Known-Issues))
 * Use mythic mob's name in arena waves config
+
+`PlaceholderAPI`
+
+Added placeholder (still updating):
+* mobarena_prefix: global prefix
+* mobarena_total_enabled: amount of arenas is enabled
+* mobarena_arena_name: name of arena that player is in
+* mobarena_arena_prefix: prefix of arena that player is in
+
+`DiscordSRV`
+
 
 Next support plugins PlaceholderAPI, Denizen
 
