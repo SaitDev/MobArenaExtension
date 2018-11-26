@@ -1,3 +1,5 @@
 extension:
+  bungeecord:
+    enable: false
   mythicmob:
     enable: true

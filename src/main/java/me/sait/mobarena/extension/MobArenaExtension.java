@@ -5,6 +5,7 @@ import com.garbagemule.MobArena.MobArena;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.integration.mythicmob.MythicMobsSupport;
 import org.bukkit.plugin.Plugin;
+import me.sait.mobarena.extension.integration.proxy.BungeeCordSupport;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -13,6 +14,7 @@ public final class MobArenaExtension extends JavaPlugin {
     private ConfigManager configManager;
     private MobArena mobArena;
     private String mobArenaPluginName = "MobArena";
+    private BungeeCordSupport bungeeCordSupport;
     private MythicMobsSupport mythicMobsSupport;
     private String mythicMobPluginName = "MythicMobs";
 
@@ -21,6 +23,7 @@ public final class MobArenaExtension extends JavaPlugin {
         // Plugin startup logic
         setupConfig();
         initMobArena();
+        initBungeeCord();
         initMythicMob();
     }
 
@@ -44,6 +47,14 @@ public final class MobArenaExtension extends JavaPlugin {
 
     private void initMobArena() {
         mobArena = (MobArena) getServer().getPluginManager().getPlugin(mobArenaPluginName);
+    }
+
+    private void initBungeeCord() {
+        if (ConfigManager.isBungeeCordEnabled()) {
+            this.getLogger().info("Init bungee cord");
+            this.bungeeCordSupport = new BungeeCordSupport(this);
+            this.bungeeCordSupport.registerListeners();
+        }
     }
 
     private void initMythicMob() {

@@ -8,6 +8,7 @@ public class ConfigManager {
     private static MobArenaExtension plugin;
     private static FileConfiguration fileConfig;
     private static boolean initialized;
+    private static String bungeeCordPrefix = "bungeecord";
 
     public ConfigManager(MobArenaExtension plugin) {
         this.plugin = plugin;
@@ -18,6 +19,10 @@ public class ConfigManager {
     //General
 
     //Extension
+
+    public static Boolean isBungeeCordEnabled() {
+        return !initialized ? null : extensionSettings().getBoolean(bungeeCordPrefix + ".enable", false);
+    }
 
     public static Boolean isMythicMobEnabled() {
         if (!initialized) return null;
