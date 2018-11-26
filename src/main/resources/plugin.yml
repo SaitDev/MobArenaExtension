@@ -6,3 +6,4 @@ depend:
 - MobArena
 softdepend:
 - MythicMobs
+- PlaceholderAPI

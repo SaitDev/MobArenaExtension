@@ -9,7 +9,9 @@ public class ConfigManager {
     private static MobArenaExtension plugin;
     private static FileConfiguration fileConfig;
     private static boolean initialized;
-    private static String mythicMobPrefix = "mythicmob";
+    private static final String mythicMobPrefix = "mythicmob";
+    private static final String placeholderAPIPrefix = "placeholderapi";
+    private static final String enableSetting = ".enable";
 
     public ConfigManager(MobArenaExtension plugin) {
         this.plugin = plugin;
@@ -19,6 +21,10 @@ public class ConfigManager {
 
     public void reload() {
         this.fileConfig = plugin.getConfig();
+    }
+
+    public static boolean isInitialized() {
+        return initialized;
     }
 
     //General
@@ -32,7 +38,12 @@ public class ConfigManager {
 
     public static Boolean isMythicMobEnabled() {
         if (!initialized) return null;
-        return extensionSettings().getBoolean(mythicMobPrefix + ".enable", false);
+        return extensionSettings().getBoolean(mythicMobPrefix + enableSetting, false);
+    }
+
+    public static Boolean isPlaceholderAPIEnabled() {
+        if (!initialized) return null;
+        return extensionSettings().getBoolean(placeholderAPIPrefix + enableSetting, false);
     }
 
     //Section

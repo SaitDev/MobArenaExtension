@@ -62,6 +62,14 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -73,11 +81,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.garbagemule</groupId>
-            <artifactId>mobarena</artifactId>
+            <groupId>com.github.garbagemule</groupId>
+            <artifactId>MobArena</artifactId>
             <version>0.103</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/libs/MobArena-0.103-1.12.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.lumine.xikage</groupId>
@@ -85,6 +92,12 @@
             <version>4.4.1</version>
             <scope>system</scope>
             <systemPath>${basedir}/libs/MythicMobs-4.4.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.9.2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

@@ -39,7 +39,7 @@ public class LogHelper {
     public static void log(String message, LogLevel level) {
         if (level == null) level = defaulLevel;
 
-        if (level.ordinal() < ConfigManager.getLogLevel()) {
+        if (level.ordinal() < (ConfigManager.isInitialized() ? ConfigManager.getLogLevel() : defaulLevel.ordinal())) {
             return;
         }
 

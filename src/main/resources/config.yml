@@ -3,3 +3,5 @@ general:
 extension:
   mythicmob:
     enable: false
+  placeholderapi:
+    enable: false
