@@ -8,6 +8,7 @@ import me.sait.mobarena.extension.integration.mythicmob.MythicMobsSupport;
 import me.sait.mobarena.extension.integration.placeholderapi.PlaceholderAPISupport;
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
+import me.sait.mobarena.extension.services.MetricsService;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -15,6 +16,8 @@ import java.io.File;
 public final class MobArenaExtension extends JavaPlugin {
     private ConfigManager configManager;
     private MobArena mobArena;
+    private MetricsService metricsService;
+
     private MythicMobsSupport mythicMobsSupport;
     private PlaceholderAPISupport placeholderAPISupport;
     private DiscordSrvSupport discordSrvSupport;
@@ -27,10 +30,13 @@ public final class MobArenaExtension extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         setupConfig();
+
         initMobArena();
         initMythicMob();
         initPlaceholderAPI();
         initDiscordSrv();
+
+        startServices();
     }
 
     @Override
@@ -61,6 +67,11 @@ public final class MobArenaExtension extends JavaPlugin {
         loadDefaultConfig();
         reloadConfig();
         configManager.reload();
+    }
+
+    private void startServices() {
+        metricsService = new MetricsService();
+        metricsService.start();
     }
 
     private void initMobArena() {

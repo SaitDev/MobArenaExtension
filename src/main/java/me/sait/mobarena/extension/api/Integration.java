@@ -1,4 +1,4 @@
-package me.sait.mobarena.extension.integration;
+package me.sait.mobarena.extension.api;
 
 public interface Integration {
     void onEnable();

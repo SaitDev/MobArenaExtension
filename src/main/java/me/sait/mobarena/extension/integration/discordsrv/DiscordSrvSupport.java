@@ -3,7 +3,7 @@ package me.sait.mobarena.extension.integration.discordsrv;
 import com.garbagemule.MobArena.MobArena;
 import com.garbagemule.MobArena.framework.Arena;
 import github.scarsz.discordsrv.DiscordSRV;
-import me.sait.mobarena.extension.integration.Integration;
+import me.sait.mobarena.extension.api.Integration;
 import me.sait.mobarena.extension.integration.discordsrv.listeners.DiscordSrvListener;
 import org.bukkit.entity.Player;
 
