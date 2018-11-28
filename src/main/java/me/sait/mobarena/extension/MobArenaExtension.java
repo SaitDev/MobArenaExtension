@@ -97,7 +97,10 @@ public final class MobArenaExtension extends JavaPlugin {
             mythicMobsSupport.registerListeners();
 
             try {
-                mobArena.reload(); //so that mob arena can parse mobs from mythicmobs
+                if (mobArena.getLastFailureCause() != null) {
+                    LogHelper.debug("Auto reload MobArena so it load mythic mobs now if have");
+                    mobArena.reload();
+                }
             } catch (RuntimeException error) {}
         }
     }

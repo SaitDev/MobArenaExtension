@@ -39,6 +39,7 @@ public class MythicMobsSupport {
             }
             new MythicMobCreature(this, mob);
             registeredMobs.add(mob);
+            LogHelper.debug("Registered mythic mob: " + mob.getInternalName());
         }
     }
 

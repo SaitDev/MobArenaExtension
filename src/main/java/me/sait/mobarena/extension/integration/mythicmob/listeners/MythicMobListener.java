@@ -34,7 +34,7 @@ public class MythicMobListener implements Listener {
                     LogHelper.debug("Mob was spawn by another mythic mob inside mob arena");
                     Arena arena = mythicMobsSupport.getInArena(parent);
                     if (parent instanceof LivingEntity) {
-                        arena.getMonsterManager().addMonster((LivingEntity) parent);
+                        arena.getMonsterManager().addMonster((LivingEntity) event.getEntity());
                     }
                     mythicMobsSupport.arenaSpawnMythicMob(arena, event.getEntity());
                 }
