@@ -1,9 +1,9 @@
-# Mob Arena Extension  [![CircleCI](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master.svg?style=svg)](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master)
+# Mob Arena Extension  [![Build status](https://ci.appveyor.com/api/projects/status/npoql7iisagunifw/branch/master?svg=true)](https://ci.appveyor.com/project/SaitDev/mobarenaextension/branch/master)
 
 Extend the supporting for 3rd pt plugins or additional features
 
 ## Getting Started
-* Login and download a snapshot from [Circle CI](https://circleci.com/gh/SaitDev/MobArenaExtension/tree/master) (from a successfully build, tab Artifacts). You cant see artifacts if you dont login circleci. Install to your plugins folder. Make sure you dont forget to install MobArena as well
+* Download a snapshot from [Build server](https://ci.appveyor.com/project/SaitDev/mobarenaextension/build/artifacts). Install to your plugins folder. Make sure you dont forget to install MobArena as well
 * Enable which module you wanna in `plugins/MobArenaExtension/config.yml`
 
 
