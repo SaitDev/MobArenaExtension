@@ -42,6 +42,7 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
 
             if (param.equalsIgnoreCase("arena") || param.equalsIgnoreCase("arena_name")) {
                 return arena.getSettings().getName();
+
             } else if (param.equalsIgnoreCase("arena_prefix")) {
                 String prefix = arena.getSettings().getString("prefix", "");
                 if (prefix.isEmpty()) {
@@ -49,6 +50,29 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
                 } else {
                     return prefix;
                 }
+
+            } else if (param.equalsIgnoreCase("arena_wave")) {
+                return String.valueOf(arena.getWaveManager().getWaveNumber());
+
+            } else if (param.equalsIgnoreCase("arena_final_wave")) {
+                if (arena.getWaveManager().getFinalWave() > 0) {
+                    return String.valueOf(arena.getWaveManager().getFinalWave());
+                } else {
+                    return "∞";
+                }
+
+            } else if (param.equalsIgnoreCase("arena_mobs")) {
+                return String.valueOf(arena.getMonsterManager().getMonsters().size());
+
+            //TODO those stats provided by core with keys were hard coded with name, might broken in the future
+            } else if (param.equalsIgnoreCase("arena_killed")) {
+                return String.valueOf(arena.getArenaPlayer(player).getStats().getInt("kills"));
+
+            } else if (param.equalsIgnoreCase("arena_damage_dealt")) {
+                return String.valueOf(arena.getArenaPlayer(player).getStats().getInt("dmgDone"));
+
+            } else if (param.equalsIgnoreCase("arena_damage_received")) {
+                return String.valueOf(arena.getArenaPlayer(player).getStats().getInt("dmgTaken"));
             }
         } else if (param.toLowerCase().startsWith("player")) {
             ;

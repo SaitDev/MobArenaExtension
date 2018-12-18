@@ -17,15 +17,22 @@ Extend the supporting for 3rd pt plugins or additional features
 `PlaceholderAPI`
 
 Added placeholder (still updating):
-* mobarena_prefix: global prefix
-* mobarena_total_enabled: amount of arenas is enabled
-* mobarena_arena_name: name of arena that player is in
-* mobarena_arena_prefix: prefix of arena that player is in
+Key | description
+------------|-------------
+mobarena_prefix | global prefix 
+mobarena_total_enabled | amount of arenas is enabled
+mobarena_arena_name | name of arena that player is in
+mobarena_arena_prefix | prefix of arena that player is in
+mobarena_arena_wave | current wave of arena
+mobarena_arena_final_wave | 
+mobarena_arena_mobs | amount of live mobs
+mobarena_arena_killed | mobs that that player killed of this run
+mobarena_arena_damage_dealt | damages that player dealt of this run
+mobarena_arena_damage_received | damages that player received of this run
 
 `DiscordSRV`
 
 
-Next support plugins PlaceholderAPI, Denizen
 
 ### Known Issues
 * MythicMobs allow using some non-living entity (armor stand) but MobArena only allow living entity. Which mean you can not use non-living entity mythic mob in MobArena `yet`
