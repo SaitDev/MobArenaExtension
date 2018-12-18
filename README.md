@@ -17,6 +17,7 @@ Extend the supporting for 3rd pt plugins or additional features
 `PlaceholderAPI`
 
 Added placeholder (still updating):
+
 Key | description
 ------------|-------------
 mobarena_prefix | global prefix 
