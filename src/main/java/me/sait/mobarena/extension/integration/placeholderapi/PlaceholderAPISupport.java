@@ -2,6 +2,8 @@ package me.sait.mobarena.extension.integration.placeholderapi;
 
 import com.garbagemule.MobArena.MobArena;
 import com.garbagemule.MobArena.framework.Arena;
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.PlaceholderHook;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.config.Constants;
@@ -9,7 +11,7 @@ import me.sait.mobarena.extension.utils.CommonUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class PlaceholderAPISupport extends PlaceholderExpansion {
+public class PlaceholderAPISupport extends PlaceholderHook implements Integration {
     public static final String pluginName = "PlaceholderAPI";
     private static final String identifier = "mobarena";
     private MobArenaExtension extension;
@@ -18,6 +20,10 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
     public PlaceholderAPISupport(MobArenaExtension extension, MobArena mobArena) {
         this.extension = extension;
         this.mobArena = mobArena;
+    }
+
+    public void onEnable() {
+        register();
     }
 
     @Override
@@ -81,29 +87,37 @@ public class PlaceholderAPISupport extends PlaceholderExpansion {
         return null;
     }
 
-    @Override
-    public String getIdentifier() {
-        return identifier;
+//    @Override
+//    public String getIdentifier() {
+//        return identifier;
+//    }
+//
+//    @Override
+//    public String getAuthor() {
+//        String authors = "";
+//        if (!CommonUtils.isEmptyList(extension.getDescription().getAuthors())) {
+//            if (extension.getDescription().getAuthors().size() == 1) {
+//                authors = extension.getDescription().getAuthors().get(0);
+//            } else {
+//                authors += "[";
+//                authors += String.join(", ", extension.getDescription().getAuthors());
+//                authors += "]";
+//            }
+//        }
+//        return authors;
+//    }
+//
+//    @Override
+//    public String getVersion() {
+//        return extension.getDescription().getVersion();
+//    }
+
+    private void register() {
+        PlaceholderAPI.registerPlaceholderHook(this.identifier, this);
     }
 
-    @Override
-    public String getAuthor() {
-        String authors = "";
-        if (!CommonUtils.isEmptyList(extension.getDescription().getAuthors())) {
-            if (extension.getDescription().getAuthors().size() == 1) {
-                authors = extension.getDescription().getAuthors().get(0);
-            } else {
-                authors += "[";
-                authors += String.join(", ", extension.getDescription().getAuthors());
-                authors += "]";
-            }
-        }
-        return authors;
-    }
-
-    @Override
-    public String getVersion() {
-        return extension.getDescription().getVersion();
+    private void unregister() {
+        PlaceholderAPI.unregisterPlaceholderHook(this.identifier);
     }
 
     private String getGlobalPrefix() {

@@ -28,7 +28,6 @@ public final class MobArenaExtension extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         setupConfig();
 
         initMobArena();
@@ -41,8 +40,7 @@ public final class MobArenaExtension extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
-        //TODO - unregister listeners
+        //TODO - graceful disable all modules
         disableDiscordSrv();
     }
 
@@ -118,6 +116,8 @@ public final class MobArenaExtension extends JavaPlugin {
 
             placeholderAPISupport = new PlaceholderAPISupport(this, mobArena);
             placeholderAPISupport.register();
+            placeholderAPISupport.onEnable();
+            extensions.add(placeholderAPISupport);
         }
     }
 
