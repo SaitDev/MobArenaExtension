@@ -27,13 +27,13 @@ mobarena_arena_prefix | prefix of arena that player is in
 mobarena_arena_wave | current wave of arena
 mobarena_arena_final_wave | 
 mobarena_arena_mobs | amount of live mobs
-mobarena_arena_killed | mobs that that player killed of this run
-mobarena_arena_damage_dealt | damages that player dealt of this run
-mobarena_arena_damage_received | damages that player received of this run
+mobarena_arena_killed | mobs that that player killed in this run
+mobarena_arena_damage_dealt | damages that player dealt in this run
+mobarena_arena_damage_received | damages that player received in this run
 
 `DiscordSRV`
 
-
+In isolated chat arena, messages wont be sent to discord.
 
 ### Known Issues
 * MythicMobs allow using some non-living entity (armor stand) but MobArena only allow living entity. Which mean you can not use non-living entity mythic mob in MobArena `yet`

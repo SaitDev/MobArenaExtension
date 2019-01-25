@@ -6,8 +6,13 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.PlaceholderHook;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.sait.mobarena.extension.MobArenaExtension;
+import me.sait.mobarena.extension.api.Integration;
 import me.sait.mobarena.extension.config.Constants;
+import me.sait.mobarena.extension.integration.placeholderapi.events.MAPlaceholderEvent;
+import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.utils.CommonUtils;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -22,12 +27,32 @@ public class PlaceholderAPISupport extends PlaceholderHook implements Integratio
         this.mobArena = mobArena;
     }
 
+    @Override
     public void onEnable() {
         register();
     }
 
     @Override
+    public void onReload() {}
+
+    @Override
+    public void onDisable() {
+//        PlaceholderAPI.unregisterExpansion(this);
+        unregister();
+    }
+
+    @Override
     public String onPlaceholderRequest(Player player, String param) {
+        MAPlaceholderEvent event = new MAPlaceholderEvent(param);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.getResult() != null) {
+            if (StringUtils.isBlank(event.getResult())) {
+                LogHelper.debug("Some plugin override this placeholder with an empty value: " + param);
+            }
+            return event.getResult();
+        }
+
         //global
         if (param.equalsIgnoreCase("prefix")) {
             return getGlobalPrefix();

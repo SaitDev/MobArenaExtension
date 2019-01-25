@@ -30,11 +30,17 @@ public class MythicMobListener implements Listener {
             }
             if (am != null && am.getParent() != null) {
                 Entity parent = am.getParent().getEntity().getBukkitEntity();
+                ActiveMob parentMM = MythicMobs.inst().getAPIHelper().getMythicMobInstance(parent);
+                if (parentMM != null) {
+                    LogHelper.debug(event.getMobType().getInternalName() + " spawned via skill Summon by " + parentMM.getType().getInternalName());
+                }
                 if (mythicMobsSupport.isInArena(parent)) {
-                    LogHelper.debug("Mob was spawn by another mythic mob inside mob arena");
+                    LogHelper.debug(event.getMobType().getInternalName() + " was spawn by another mythic mob inside mob arena");
                     Arena arena = mythicMobsSupport.getInArena(parent);
-                    if (parent instanceof LivingEntity) {
+                    if (event.getEntity() instanceof LivingEntity) {
                         arena.getMonsterManager().addMonster((LivingEntity) event.getEntity());
+                    } else {
+                        LogHelper.error(event.getMobType().getInternalName() + " is not a living entity, currently not compatible with Mob Arena");
                     }
                     mythicMobsSupport.arenaSpawnMythicMob(arena, event.getEntity());
                 }

@@ -22,6 +22,9 @@ public class DiscordSrvSupport implements Integration {
     }
 
     @Override
+    public void onReload() {}
+
+    @Override
     public void onDisable() {
         unregisterListeners();
     }

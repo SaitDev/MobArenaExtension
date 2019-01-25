@@ -7,6 +7,7 @@ import io.lumine.xikage.mythicmobs.api.exceptions.InvalidMobTypeException;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
@@ -16,6 +17,7 @@ import org.bukkit.entity.LivingEntity;
 public class MythicMobCreature extends MACreature {
     private MythicMobsSupport mythicMobsSupport;
     private MythicMob mythicMob;
+    private final boolean isLivingEntity;
 
     public MythicMobCreature(MythicMobsSupport mythicMobsSupport, MythicMob mythicMob) {
         super(mythicMob.getInternalName().toLowerCase().replaceAll("[-_\\.]",""),
@@ -23,6 +25,18 @@ public class MythicMobCreature extends MACreature {
 
         this.mythicMobsSupport = mythicMobsSupport;
         this.mythicMob = mythicMob;
+
+        //TODO deprecated stuff
+        EntityType entityType = EntityType.fromName(mythicMob.getEntityType());
+        if (entityType == null) {
+            entityType = EntityType.valueOf(mythicMob.getEntityType().toUpperCase());
+        }
+        if (entityType != null && entityType.getEntityClass().isAssignableFrom(LivingEntity.class)) {
+            isLivingEntity = true;
+        } else {
+            isLivingEntity = false;
+            LogHelper.warn(mythicMob.getInternalName() + " is not a living entity, currently not compatible with Mob Arena");
+        }
     }
 
     @Override
@@ -33,7 +47,8 @@ public class MythicMobCreature extends MACreature {
                 mythicMobsSupport.arenaSpawnMythicMob(arena, mMob);
                 return (LivingEntity)mMob;
             } else {
-                LogHelper.log("Mythic mob is not a living entity, cant spawn in Mob arena", LogLevel.DETAIL);
+                LogHelper.error(mythicMob.getInternalName() + " is not a living entity, cant spawn in Mob Arena");
+                mMob.remove();
                 return null;
             }
         } catch (InvalidMobTypeException e) {

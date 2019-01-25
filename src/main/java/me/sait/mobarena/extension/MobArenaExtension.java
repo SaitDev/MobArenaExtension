@@ -1,6 +1,7 @@
 package me.sait.mobarena.extension;
 
 import com.garbagemule.MobArena.MobArena;
+import me.sait.mobarena.extension.api.Integration;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.config.Constants;
 import me.sait.mobarena.extension.integration.discordsrv.DiscordSrvSupport;
@@ -9,15 +10,19 @@ import me.sait.mobarena.extension.integration.placeholderapi.PlaceholderAPISuppo
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
 import me.sait.mobarena.extension.services.MetricsService;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class MobArenaExtension extends JavaPlugin {
     private ConfigManager configManager;
     private MobArena mobArena;
     private MetricsService metricsService;
 
+    private static List<Integration> extensions;
     private MythicMobsSupport mythicMobsSupport;
     private PlaceholderAPISupport placeholderAPISupport;
     private DiscordSrvSupport discordSrvSupport;
@@ -44,6 +49,27 @@ public final class MobArenaExtension extends JavaPlugin {
         disableDiscordSrv();
     }
 
+    public static boolean registerExtension(Integration extension) {
+        if (extensions == null) {
+            extensions = new ArrayList<>();
+        }
+        try {
+            if (extension == null) return false;
+
+            extension.onEnable();
+        } catch (Exception e) {
+            LogHelper.log(e);
+            try {
+                extension.onDisable();
+            } catch (Exception ex) {
+                LogHelper.log(e);
+            }
+            return false;
+        }
+        extensions.add(extension);
+        return true;
+    }
+
     private void setupConfig() {
         loadDefaultConfig();
         configManager = new ConfigManager(this);
@@ -51,10 +77,8 @@ public final class MobArenaExtension extends JavaPlugin {
 
     private void loadDefaultConfig() {
         boolean pluginFolderNotExists = !getDataFolder().exists();
-        if (pluginFolderNotExists) {
-            getDataFolder().mkdirs();
-        }
         File file = new File(getDataFolder(), "config.yml");
+
         if (pluginFolderNotExists || !file.exists()) {
             LogHelper.info("config.yml not found, creating new one!");
             saveDefaultConfig();
@@ -91,8 +115,8 @@ public final class MobArenaExtension extends JavaPlugin {
             }
 
             mythicMobsSupport = new MythicMobsSupport(this, mobArena);
-            mythicMobsSupport.registerMobs();
-            mythicMobsSupport.registerListeners();
+            mythicMobsSupport.onEnable();
+            extensions.add(mythicMobsSupport);
 
             try {
                 if (mobArena.getLastFailureCause() != null) {
@@ -115,7 +139,6 @@ public final class MobArenaExtension extends JavaPlugin {
             }
 
             placeholderAPISupport = new PlaceholderAPISupport(this, mobArena);
-            placeholderAPISupport.register();
             placeholderAPISupport.onEnable();
             extensions.add(placeholderAPISupport);
         }
@@ -134,6 +157,7 @@ public final class MobArenaExtension extends JavaPlugin {
 
             discordSrvSupport = new DiscordSrvSupport(mobArena);
             discordSrvSupport.onEnable();
+            extensions.add(discordSrvSupport);
         }
     }
 
@@ -143,6 +167,7 @@ public final class MobArenaExtension extends JavaPlugin {
                 discordSrvSupport != null
         ) {
             discordSrvSupport.onDisable();
+            extensions.remove(discordSrvSupport);
         }
     }
 }

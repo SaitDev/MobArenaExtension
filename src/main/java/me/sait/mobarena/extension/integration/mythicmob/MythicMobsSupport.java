@@ -6,6 +6,7 @@ import com.garbagemule.MobArena.waves.MACreature;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
 import me.sait.mobarena.extension.MobArenaExtension;
+import me.sait.mobarena.extension.api.Integration;
 import me.sait.mobarena.extension.integration.mythicmob.listeners.MobArenaListener;
 import me.sait.mobarena.extension.integration.mythicmob.listeners.MythicMobListener;
 import me.sait.mobarena.extension.log.LogHelper;
@@ -14,7 +15,7 @@ import org.bukkit.entity.Entity;
 
 import java.util.*;
 
-public class MythicMobsSupport {
+public class MythicMobsSupport implements Integration {
     public static final String pluginName = "MythicMobs";
     private MobArenaExtension extension;
     private MobArena mobArena;
@@ -26,22 +27,17 @@ public class MythicMobsSupport {
         this.mobArena = mobArena;
     }
 
-    public void registerListeners() {
-        mobArena.getServer().getPluginManager().registerEvents(new MythicMobListener(this), extension);
-        mobArena.getServer().getPluginManager().registerEvents(new MobArenaListener(this), extension);
+    @Override
+    public void onEnable() {
+        registerMobs();
+        registerListeners();
     }
 
-    public void registerMobs() {
-        Collection<MythicMob> mmMobs = MythicMobs.inst().getMobManager().getMobTypes();
-        for (MythicMob mob : mmMobs) {
-            if (MACreature.fromString(mob.getInternalName()) != null) {
-                throw new IllegalArgumentException("Can not register mythic mobs with similar name: " + mob.getInternalName());
-            }
-            new MythicMobCreature(this, mob);
-            registeredMobs.add(mob);
-            LogHelper.debug("Registered mythic mob: " + mob.getInternalName());
-        }
-    }
+    @Override
+    public void onReload() {}
+
+    @Override
+    public void onDisable() {}
 
     public void arenaSpawnMythicMob(Arena arena, Entity entity) {
         if (!cachedMythicMobs.containsKey(arena) || cachedMythicMobs.get(arena) == null) {
@@ -78,5 +74,22 @@ public class MythicMobsSupport {
 
     public void runTask(Runnable task, long delay) {
         Bukkit.getScheduler().runTaskLater(extension, task, delay);
+    }
+
+    private void registerListeners() {
+        mobArena.getServer().getPluginManager().registerEvents(new MythicMobListener(this), extension);
+        mobArena.getServer().getPluginManager().registerEvents(new MobArenaListener(this), extension);
+    }
+
+    private void registerMobs() {
+        Collection<MythicMob> mmMobs = MythicMobs.inst().getMobManager().getMobTypes();
+        for (MythicMob mob : mmMobs) {
+            if (MACreature.fromString(mob.getInternalName()) != null) {
+                throw new IllegalArgumentException("Can not register mythic mobs with similar name: " + mob.getInternalName());
+            }
+            new MythicMobCreature(this, mob);
+            registeredMobs.add(mob);
+            LogHelper.debug("Registered mythic mob: " + mob.getInternalName());
+        }
     }
 }
