@@ -31,7 +31,7 @@ public class MythicMobCreature extends MACreature {
         if (entityType == null) {
             entityType = EntityType.valueOf(mythicMob.getEntityType().toUpperCase());
         }
-        if (entityType != null && entityType.getEntityClass().isAssignableFrom(LivingEntity.class)) {
+        if (entityType != null && LivingEntity.class.isAssignableFrom(entityType.getEntityClass())) {
             isLivingEntity = true;
         } else {
             isLivingEntity = false;
