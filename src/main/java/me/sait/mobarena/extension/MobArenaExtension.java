@@ -33,6 +33,10 @@ public final class MobArenaExtension extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        if (extensions == null) {
+            extensions = new ArrayList<>();
+        }
+
         setupConfig();
 
         initMobArena();
