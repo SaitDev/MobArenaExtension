@@ -4,6 +4,7 @@ import com.garbagemule.MobArena.framework.Arena;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
+import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.integration.mythicmob.MythicMobsSupport;
 import me.sait.mobarena.extension.log.LogHelper;
 import org.bukkit.entity.Entity;
@@ -27,8 +28,10 @@ public class MythicMobListener implements Listener {
                     ", entity: " + event.getMobType().getEntityType());
             if (am == null) {
                 LogHelper.error("Could not found the entity object of spawned mythic mob");
+                return;
             }
-            if (am != null && am.getParent() != null) {
+
+            if (am.getParent() != null) {
                 Entity parent = am.getParent().getEntity().getBukkitEntity();
                 ActiveMob parentMM = MythicMobs.inst().getAPIHelper().getMythicMobInstance(parent);
                 if (parentMM != null) {
@@ -43,6 +46,16 @@ public class MythicMobListener implements Listener {
                         LogHelper.error(event.getMobType().getInternalName() + " is not a living entity, currently not compatible with Mob Arena");
                     }
                     mythicMobsSupport.arenaSpawnMythicMob(arena, event.getEntity());
+                    return;
+                }
+            }
+
+            if (mythicMobsSupport.getArenaAtLocation(event.getLocation()) != null) {
+                LogHelper.debug("A non-arena mythic mob spawned inside arena: "  +
+                        event.getMobType().getInternalName());
+                if (ConfigManager.isBlockNonArenaMythicMob()) {
+                    event.getEntity().remove();
+//                    event.setCancelled();
                 }
             }
         }, 1l);

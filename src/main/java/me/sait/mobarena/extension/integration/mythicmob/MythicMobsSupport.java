@@ -11,6 +11,7 @@ import me.sait.mobarena.extension.integration.mythicmob.listeners.MobArenaListen
 import me.sait.mobarena.extension.integration.mythicmob.listeners.MythicMobListener;
 import me.sait.mobarena.extension.log.LogHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
 import java.util.*;
@@ -70,6 +71,10 @@ public class MythicMobsSupport implements Integration {
             }
         }
         return null;
+    }
+
+    public Arena getArenaAtLocation(Location location) {
+        return mobArena.getArenaMaster().getArenaAtLocation(location);
     }
 
     public void runTask(Runnable task, long delay) {

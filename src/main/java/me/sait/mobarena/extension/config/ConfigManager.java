@@ -42,6 +42,11 @@ public class ConfigManager {
         return extensionSettings().getBoolean(mythicMobPrefix + enableSetting, false);
     }
 
+    public static Boolean isBlockNonArenaMythicMob() {
+        if (!initialized) return null;
+        return extensionSettings().getBoolean(mythicMobPrefix + ".block-non-arena-mythic-mob", true);
+    }
+
     public static Boolean isPlaceholderAPIEnabled() {
         if (!initialized) return null;
         return extensionSettings().getBoolean(placeholderAPIPrefix + enableSetting, false);

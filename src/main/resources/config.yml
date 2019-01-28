@@ -3,6 +3,7 @@ general:
 extension:
   mythicmob:
     enable: false
+    block-non-arena-mythic-mob: true
   placeholderapi:
     enable: false
   discordsrv:
