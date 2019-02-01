@@ -17,7 +17,7 @@ import org.bukkit.entity.LivingEntity;
 public class MythicMobCreature extends MACreature {
     private MythicMobsSupport mythicMobsSupport;
     private MythicMob mythicMob;
-    private final boolean isLivingEntity;
+    private final Boolean isLivingEntity;
 
     public MythicMobCreature(MythicMobsSupport mythicMobsSupport, MythicMob mythicMob) {
         super(mythicMob.getInternalName().toLowerCase().replaceAll("[-_\\.]",""),
@@ -27,15 +27,24 @@ public class MythicMobCreature extends MACreature {
         this.mythicMob = mythicMob;
 
         //TODO deprecated stuff
-        EntityType entityType = EntityType.fromName(mythicMob.getEntityType());
-        if (entityType == null) {
-            entityType = EntityType.valueOf(mythicMob.getEntityType().toUpperCase());
+        EntityType entityType = null;
+        try {
+            entityType = EntityType.fromName(mythicMob.getEntityType());
+            if (entityType == null) {
+                entityType = EntityType.valueOf(mythicMob.getEntityType().toUpperCase());
+            }
+        } catch (Exception e) {
+            //MythicMob had some weird added entity type which are diff name with original EntityType
         }
-        if (entityType != null && LivingEntity.class.isAssignableFrom(entityType.getEntityClass())) {
-            isLivingEntity = true;
+        if (entityType != null) {
+            if (LivingEntity.class.isAssignableFrom(entityType.getEntityClass())) {
+                isLivingEntity = true;
+            } else {
+                isLivingEntity = false;
+                LogHelper.warn(mythicMob.getInternalName() + " is not a living entity, currently not compatible with Mob Arena");
+            }
         } else {
-            isLivingEntity = false;
-            LogHelper.warn(mythicMob.getInternalName() + " is not a living entity, currently not compatible with Mob Arena");
+            isLivingEntity = null;
         }
     }
 

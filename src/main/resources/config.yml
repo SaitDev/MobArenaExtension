@@ -1,8 +1,10 @@
 general:
+  #for debugging, use level 0. highest priority is 5
   log-level: 2
 extension:
   mythicmob:
     enable: false
+    #any mythic mobs spawn inside arena but ain't a mob of arena will be removed
     block-non-arena-mythic-mob: true
   placeholderapi:
     enable: false
