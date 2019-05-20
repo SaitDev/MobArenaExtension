@@ -26,6 +26,12 @@ public class MythicMobListener implements Listener {
             ActiveMob am = MythicMobs.inst().getAPIHelper().getMythicMobInstance(event.getEntity());
             LogHelper.debug("A mythic mob spawned, mythic: " + event.getMobType().getInternalName() +
                     ", entity: " + event.getMobType().getEntityType());
+
+            if (mythicMobsSupport.isInArena(event.getEntity())) {
+                //this is arena mob. no more checking need
+                return;
+            }
+
             if (am == null) {
                 LogHelper.error("Could not found the entity object of spawned mythic mob");
                 return;
@@ -54,6 +60,7 @@ public class MythicMobListener implements Listener {
                 LogHelper.debug("A non-arena mythic mob spawned inside arena: "  +
                         event.getMobType().getInternalName());
                 if (ConfigManager.isBlockNonArenaMythicMob()) {
+                    //cant cancel event since we run this on later tick
                     event.getEntity().remove();
 //                    event.setCancelled();
                 }
