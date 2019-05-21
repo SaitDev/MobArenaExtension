@@ -10,6 +10,7 @@ import me.sait.mobarena.extension.log.LogLevel;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -54,7 +55,17 @@ public class MythicMobCreature extends MACreature {
             Entity mMob = MythicMobs.inst().getAPIHelper().spawnMythicMob(mythicMob, location, 0);
             if (mMob instanceof LivingEntity) {
                 mythicMobsSupport.arenaSpawnMythicMob(arena, mMob);
-                return (LivingEntity)mMob;
+                LivingEntity livingEntity = ((LivingEntity) mMob);
+
+                //temp fix for MA core reset mm hp due to implementation of health-multiplier
+                double multiplier = arena.getWaveManager().getCurrent().getHealthMultiplier();
+                double maxHp = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+                mythicMobsSupport.runTask(() -> {
+                    double health = maxHp * multiplier;
+                    livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
+                    livingEntity.setHealth(Math.max(1D, health));
+                }, 1);
+                return livingEntity;
             } else {
                 LogHelper.error(mythicMob.getInternalName() + " is not a living entity, cant spawn in Mob Arena");
                 mMob.remove();
