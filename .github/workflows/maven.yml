@@ -16,7 +16,7 @@ jobs:
     - name: Build with Maven
       run: mvn package --file pom.xml
     - name: Copy artifact
-      run: mkdir -v build | cd target | jar=".jar" | ls . | grep '.jar' | grep -v '^original' | sed 's/\.[^.]*$//' | xargs -I '{}' cp -v '{}'"$jar" '../build/''{}-'"$GITHUB_SHA""$jar"
+      run: ls . | mkdir -v build | cd target | jar=".jar" | ls . | grep '.jar' | grep -v '^original' | sed 's/\.[^.]*$//' | xargs -I '{}' cp -v '{}'"$jar" '../build/''{}-'"$GITHUB_SHA""$jar"
     - name: Store artifact
       uses: actions/upload-artifact@master
       with:
