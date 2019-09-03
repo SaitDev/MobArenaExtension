@@ -1,4 +1,4 @@
-name: Java CI
+name: Test build
 
 on: [push]
 
@@ -15,5 +15,10 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn package --file pom.xml
+    - name: Copy artifact
+      run: mkdir -v build | cd target | jar=".jar" | ls . | grep '.jar' | grep -v '^original' | sed 's/\.[^.]*$//' | xargs -I '{}' cp -v '{}'"$jar" '../build/''{}-'"$GITHUB_SHA""$jar"
     - name: Store artifact
-      run: jar=".jar" | ls . | grep '.jar' | grep -v '^original' | sed 's/\.[^.]*$//' | xargs -I '{}' cp -v '{}'"$jar" '../build/''{}-'"$GITHUB_SHA""$jar"
+      uses: actions/upload-artifact@master
+      with:
+        name: snapshots
+        path: build
