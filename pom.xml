@@ -64,7 +64,7 @@
     <repositories>
         <repository>
             <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
@@ -72,7 +72,7 @@
         </repository>
         <repository>
             <id>CodeMC</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
         <repository>
             <id>placeholderapi</id>
@@ -81,6 +81,10 @@
         <repository>
             <id>scarsz-nexus</id>
             <url>https://nexus.scarsz.me/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>papermc</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
     </repositories>
 
@@ -95,8 +99,7 @@
         <dependency>
             <groupId>com.github.garbagemule</groupId>
             <artifactId>MobArena</artifactId>
-            <version>0.103</version>
-            <scope>provided</scope>
+            <version>0.104.2</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
@@ -121,7 +124,7 @@
         <dependency>
             <groupId>com.discordsrv</groupId>
             <artifactId>discordsrv</artifactId>
-            <version>[1.16.4,)</version>
+            <version>1.17.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
