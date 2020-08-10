@@ -143,7 +143,7 @@ public final class MobArenaExtension extends JavaPlugin {
             }
 
             placeholderAPISupport = new PlaceholderAPISupport(this, mobArena);
-            placeholderAPISupport.onEnable();
+            placeholderAPISupport.register();
             extensions.add(placeholderAPISupport);
         }
     }
