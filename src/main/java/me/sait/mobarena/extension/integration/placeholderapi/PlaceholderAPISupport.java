@@ -119,7 +119,9 @@ public class PlaceholderAPISupport extends PlaceholderExpansion implements Integ
     }
 
     @Override
-    public void onEnable() { }
+    public void onEnable() {
+        register();
+    }
 
     @Override
     public void onReload() { }
