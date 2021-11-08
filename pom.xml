@@ -100,6 +100,7 @@
             <groupId>com.github.garbagemule</groupId>
             <artifactId>MobArena</artifactId>
             <version>0.104.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
