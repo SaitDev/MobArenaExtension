@@ -2,25 +2,22 @@ package me.sait.mobarena.extension.integration.placeholderapi;
 
 import com.garbagemule.MobArena.MobArena;
 import com.garbagemule.MobArena.framework.Arena;
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.PlaceholderHook;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.api.Integration;
 import me.sait.mobarena.extension.config.Constants;
 import me.sait.mobarena.extension.integration.placeholderapi.events.MAPlaceholderEvent;
 import me.sait.mobarena.extension.log.LogHelper;
-import me.sait.mobarena.extension.utils.CommonUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 
-public class PlaceholderAPISupport extends PlaceholderHook implements Integration {
+public class PlaceholderAPISupport extends PlaceholderExpansion implements Integration {
     public static final String pluginName = "PlaceholderAPI";
     private static final String identifier = "mobarena";
-    private MobArenaExtension extension;
-    private MobArena mobArena;
+    private final MobArenaExtension extension;
+    private final MobArena mobArena;
 
     public PlaceholderAPISupport(MobArenaExtension extension, MobArena mobArena) {
         this.extension = extension;
@@ -28,21 +25,7 @@ public class PlaceholderAPISupport extends PlaceholderHook implements Integratio
     }
 
     @Override
-    public void onEnable() {
-        register();
-    }
-
-    @Override
-    public void onReload() {}
-
-    @Override
-    public void onDisable() {
-//        PlaceholderAPI.unregisterExpansion(this);
-        unregister();
-    }
-
-    @Override
-    public String onPlaceholderRequest(Player player, String param) {
+    public String onRequest(OfflinePlayer player, String param) {
         MAPlaceholderEvent event = new MAPlaceholderEvent(param);
         Bukkit.getPluginManager().callEvent(event);
 
@@ -63,9 +46,9 @@ public class PlaceholderAPISupport extends PlaceholderHook implements Integratio
         //player specific
         if (player == null) return "";
 
-        Arena arena = mobArena.getArenaMaster().getArenaWithPlayer(player);
+        Arena arena = mobArena.getArenaMaster().getArenaWithPlayer(player.getPlayer());
         if (arena == null) {
-            mobArena.getArenaMaster().getArenaWithSpectator(player);
+            mobArena.getArenaMaster().getArenaWithSpectator(player.getPlayer());
         }
 
         if (param.toLowerCase().startsWith("arena")) {
@@ -97,13 +80,13 @@ public class PlaceholderAPISupport extends PlaceholderHook implements Integratio
 
             //TODO those stats provided by core with keys were hard coded with name, might broken in the future
             } else if (param.equalsIgnoreCase("arena_killed")) {
-                return String.valueOf(arena.getArenaPlayer(player).getStats().getInt("kills"));
+                return String.valueOf(arena.getArenaPlayer(player.getPlayer()).getStats().getInt("kills"));
 
             } else if (param.equalsIgnoreCase("arena_damage_dealt")) {
-                return String.valueOf(arena.getArenaPlayer(player).getStats().getInt("dmgDone"));
+                return String.valueOf(arena.getArenaPlayer(player.getPlayer()).getStats().getInt("dmgDone"));
 
             } else if (param.equalsIgnoreCase("arena_damage_received")) {
-                return String.valueOf(arena.getArenaPlayer(player).getStats().getInt("dmgTaken"));
+                return String.valueOf(arena.getArenaPlayer(player.getPlayer()).getStats().getInt("dmgTaken"));
             }
         } else if (param.toLowerCase().startsWith("player")) {
             ;
@@ -112,37 +95,19 @@ public class PlaceholderAPISupport extends PlaceholderHook implements Integratio
         return null;
     }
 
-//    @Override
-//    public String getIdentifier() {
-//        return identifier;
-//    }
-//
-//    @Override
-//    public String getAuthor() {
-//        String authors = "";
-//        if (!CommonUtils.isEmptyList(extension.getDescription().getAuthors())) {
-//            if (extension.getDescription().getAuthors().size() == 1) {
-//                authors = extension.getDescription().getAuthors().get(0);
-//            } else {
-//                authors += "[";
-//                authors += String.join(", ", extension.getDescription().getAuthors());
-//                authors += "]";
-//            }
-//        }
-//        return authors;
-//    }
-//
-//    @Override
-//    public String getVersion() {
-//        return extension.getDescription().getVersion();
-//    }
-
-    private void register() {
-        PlaceholderAPI.registerPlaceholderHook(this.identifier, this);
+    @Override
+    public String getIdentifier() {
+        return identifier;
     }
 
-    private void unregister() {
-        PlaceholderAPI.unregisterPlaceholderHook(this.identifier);
+    @Override
+    public String getAuthor() {
+        return "Sait";
+    }
+
+    @Override
+    public String getVersion() {
+        return extension.getDescription().getVersion();
     }
 
     private String getGlobalPrefix() {
@@ -152,4 +117,15 @@ public class PlaceholderAPISupport extends PlaceholderHook implements Integratio
         }
         return prefix;
     }
+
+    @Override
+    public void onEnable() {
+        register();
+    }
+
+    @Override
+    public void onReload() { }
+
+    @Override
+    public void onDisable() { }
 }

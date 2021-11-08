@@ -1,6 +1,14 @@
 name: Test build
 
-on: [push]
+on:
+  push:
+    branches:
+      - develop
+      - release
+  workflow_dispatch:
+    branches:
+      - develop
+      - release
 
 jobs:
   build:
@@ -21,9 +29,11 @@ jobs:
     - run: cd target
     - run: jar=".jar"
     - run: ls .
-    - run: grep '.jar' | grep -v '^original' | sed 's/\.[^.]*$//' | xargs -I '{}' cp -v '{}'"$jar" '../build/''{}-'"$GITHUB_SHA""$jar"
+    - run: grep '.jar' | grep -v '^MobArenaExtension' | sed 's/\.[^.]*$//' | xargs -I '{}' cp -v '{}'"$jar" '../build/''{}-'"$GITHUB_SHA""$jar"
+    - run: ls ../build
+    - run: cd ..
     - name: Store artifact
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@v2
       with:
         name: snapshots
         path: build
