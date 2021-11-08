@@ -30,7 +30,7 @@ jobs:
           cd target
           jar=".jar"
           ls .
-          grep '.jar' | grep -v '^MobArenaExtension' | sed 's/\.[^.]*$//' | xargs -I '{}' cp -v '{}'"$jar" '../build/''{}-'"$GITHUB_SHA""$jar"
+          ls . | grep '.jar' | grep -v '^original' | sed 's/\.[^.]*$//' | xargs -I '{}' cp -v '{}'"$jar" '../build/''{}-'"$GITHUB_SHA""$jar"
           ls ../build
       - name: Store artifact
         uses: actions/upload-artifact@v2
