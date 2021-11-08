@@ -3,7 +3,7 @@
 Extend the supporting for 3rd pt plugins or additional features
 
 ## Getting Started
-* Download a snapshot from [Build server](https://ci.appveyor.com/project/SaitDev/mobarenaextension/build/artifacts). Install to your plugins folder. Make sure you dont forget to install MobArena as well
+* Download a snapshot from [Appveyor](https://ci.appveyor.com/project/SaitDev/mobarenaextension/build/artifacts) or [Github Action](https://github.com/SaitDev/MobArenaExtension/actions). Install to your plugins folder. Make sure you dont forget to install MobArena as well
 * Enable which module you wanna in `plugins/MobArenaExtension/config.yml`
 
 
