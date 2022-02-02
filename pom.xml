@@ -92,29 +92,29 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13.2-R0.1-SNAPSHOT</version>
+            <version>1.18.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.garbagemule</groupId>
             <artifactId>MobArena</artifactId>
-            <version>0.104.2</version>
+            <version>0.106</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>1.4</version>
+            <version>2.2.1</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>io.lumine.xikage</groupId>
             <artifactId>mythicmobs</artifactId>
-            <version>4.4.1</version>
+            <version>4.14.1</version>
             <scope>system</scope>
-            <systemPath>${basedir}/libs/MythicMobs-4.4.1.jar</systemPath>
+            <systemPath>${basedir}/libs/MythicMobs-4.14.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
