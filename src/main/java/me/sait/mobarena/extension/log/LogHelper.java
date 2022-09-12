@@ -2,7 +2,6 @@ package me.sait.mobarena.extension.log;
 
 import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.config.ConfigManager;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.bukkit.Bukkit;
 
 import java.util.logging.Logger;
@@ -28,10 +27,6 @@ public class LogHelper {
 
     public static void log(Object obj) {
         log(String.valueOf(obj));
-    }
-
-    public static void log(Exception e) {
-        log(ExceptionUtils.getStackTrace(e));
     }
 
     public static void log(String message) {
