@@ -1,9 +1,9 @@
 package me.sait.mobarena.extension.integration.mythicmob.listeners;
 
 import com.garbagemule.MobArena.framework.Arena;
-import io.lumine.xikage.mythicmobs.MythicMobs;
-import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
-import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
+import io.lumine.mythic.bukkit.MythicBukkit;
+import io.lumine.mythic.bukkit.events.MythicMobSpawnEvent;
+import io.lumine.mythic.core.mobs.ActiveMob;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.integration.mythicmob.MythicMobsSupport;
 import me.sait.mobarena.extension.log.LogHelper;
@@ -23,7 +23,7 @@ public class MythicMobListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void mythicMobSpawn(MythicMobSpawnEvent event) {
         mythicMobsSupport.runTask(() -> {
-            ActiveMob am = MythicMobs.inst().getAPIHelper().getMythicMobInstance(event.getEntity());
+            ActiveMob am = MythicBukkit.inst().getAPIHelper().getMythicMobInstance(event.getEntity());
             LogHelper.debug("A mythic mob spawned, mythic: " + event.getMobType().getInternalName() +
                     ", entity: " + event.getMobType().getEntityType());
 
@@ -39,7 +39,7 @@ public class MythicMobListener implements Listener {
 
             if (am.getParent() != null) {
                 Entity parent = am.getParent().getEntity().getBukkitEntity();
-                ActiveMob parentMM = MythicMobs.inst().getAPIHelper().getMythicMobInstance(parent);
+                ActiveMob parentMM = MythicBukkit.inst().getAPIHelper().getMythicMobInstance(parent);
                 if (parentMM != null) {
                     LogHelper.debug(event.getMobType().getInternalName() + " spawned via skill Summon by " + parentMM.getType().getInternalName());
                 }

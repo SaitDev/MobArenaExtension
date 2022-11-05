@@ -3,8 +3,8 @@ package me.sait.mobarena.extension.integration.mythicmob;
 import com.garbagemule.MobArena.MobArena;
 import com.garbagemule.MobArena.framework.Arena;
 import com.garbagemule.MobArena.waves.MACreature;
-import io.lumine.xikage.mythicmobs.MythicMobs;
-import io.lumine.xikage.mythicmobs.mobs.MythicMob;
+import io.lumine.mythic.api.mobs.MythicMob;
+import io.lumine.mythic.bukkit.MythicBukkit;
 import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.api.Integration;
 import me.sait.mobarena.extension.integration.mythicmob.listeners.MobArenaListener;
@@ -20,6 +20,7 @@ public class MythicMobsSupport implements Integration {
     public static final String pluginName = "MythicMobs";
     private MobArenaExtension extension;
     private MobArena mobArena;
+    private Map<String, MACreature> originalMACreatures = new HashMap<>();
     private Map<Arena, List<Entity>> cachedMythicMobs = new HashMap();
     private List<MythicMob> registeredMobs = new ArrayList();
 
@@ -87,12 +88,20 @@ public class MythicMobsSupport implements Integration {
     }
 
     private void registerMobs() {
-        Collection<MythicMob> mmMobs = MythicMobs.inst().getMobManager().getMobTypes();
+        Collection<MythicMob> mmMobs = MythicBukkit.inst().getMobManager().getMobTypes();
         for (MythicMob mob : mmMobs) {
-            if (MACreature.fromString(mob.getInternalName()) != null) {
-                throw new IllegalArgumentException("Can not register mythic mobs with similar name: " + mob.getInternalName());
+            String creatureKey = mob.getInternalName().toLowerCase().replaceAll("[-_\\.]","");
+            MACreature existedCreature = MACreature.fromString(creatureKey);
+            if (existedCreature != null) {
+                if (existedCreature instanceof MythicMobCreature) {
+                    throw new IllegalArgumentException("Can not register mythic mobs with similar name: " + mob.getInternalName());
+                } else {
+                    originalMACreatures.put(creatureKey, existedCreature);
+                }
             }
-            new MythicMobCreature(this, mob);
+
+            MythicMobCreature mmCreature = new MythicMobCreature(this, mob);
+            MythicMobCreature.register(creatureKey, mmCreature);
             registeredMobs.add(mob);
             LogHelper.debug("Registered mythic mob: " + mob.getInternalName());
         }

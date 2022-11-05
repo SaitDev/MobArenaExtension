@@ -6,7 +6,7 @@
 
     <groupId>me.sait</groupId>
     <artifactId>mobarena-extension</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>MobArenaExtension</name>
@@ -86,6 +86,12 @@
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>lumine</id>
+            <name>Lumine Releases</name>
+            <url>https://mvn.lumine.io/repository/maven-public/</url>
+        </repository>
+
     </repositories>
 
     <dependencies>
@@ -99,7 +105,7 @@
         <dependency>
             <groupId>com.github.garbagemule</groupId>
             <artifactId>MobArena</artifactId>
-            <version>0.106</version>
+            <version>0.107</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -110,11 +116,16 @@
         </dependency>
 
         <dependency>
-            <groupId>io.lumine.xikage</groupId>
-            <artifactId>mythicmobs</artifactId>
-            <version>4.14.1</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/libs/MythicMobs-4.14.1.jar</systemPath>
+            <groupId>io.lumine</groupId>
+            <artifactId>Mythic</artifactId>
+            <version>5.1.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.lumine</groupId>
+            <artifactId>LumineUtils</artifactId>
+            <version>1.19-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
