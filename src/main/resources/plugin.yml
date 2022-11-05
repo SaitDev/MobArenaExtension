@@ -2,6 +2,7 @@ name: ${project.name}
 version: ${project.version}
 author: Sait
 main: me.sait.mobarena.extension.MobArenaExtension
+api-version: 1.18
 depend:
 - MobArena
 softdepend:
