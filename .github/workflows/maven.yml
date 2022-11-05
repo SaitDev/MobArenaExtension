@@ -3,11 +3,11 @@ name: Snapshot build
 on:
   push:
     branches:
-      - develop
+      - master
       - release
   workflow_dispatch:
     branches:
-      - develop
+      - master
       - release
 
 jobs:

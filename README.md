@@ -3,14 +3,15 @@
 Extend the supporting for 3rd pt plugins or additional features
 
 ## Getting Started
-* Download a snapshot from [Appveyor](https://ci.appveyor.com/project/SaitDev/mobarenaextension/build/artifacts) or [Github Action](https://github.com/SaitDev/MobArenaExtension/actions). Install to your plugins folder. Make sure you dont forget to install MobArena as well
+* Install Spigot/Paper 1.18.2 onward, Java 17 and MobArena (tested on 0.107)
+* Download a snapshot build from [Github Action](https://github.com/SaitDev/MobArenaExtension/actions). Install to your plugins folder
 * Enable which module you wanna in `plugins/MobArenaExtension/config.yml`
 
 
 ### Supported Plugins
 
 `MythicMobs`
-* Install MythicMobs. Then create cool mobs ([docs](https://mythicmobs.net/manual/) on their offical website)
+* Install MythicMobs, requires version 5 onward. Then create cool mobs ([docs](https://mythicmobs.net/manual/) on their offical website)
 * Restart your server (see [Known issues](#Known-Issues))
 * Use mythic mob's name in arena waves config
 
@@ -45,6 +46,5 @@ In isolated chat arena, messages wont be sent to discord.
 
 
 ## License
-The license does not apply to files inside folder /libs
 
 [MIT](/LICENSE)
