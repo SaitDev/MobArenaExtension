@@ -1,6 +1,5 @@
 package me.sait.mobarena.extension.integration.placeholderapi;
 
-import com.garbagemule.MobArena.ArenaPlayer;
 import com.garbagemule.MobArena.MobArena;
 import com.garbagemule.MobArena.framework.Arena;
 import lombok.val;
@@ -10,7 +9,7 @@ import me.sait.mobarena.extension.api.Integration;
 import me.sait.mobarena.extension.config.Constants;
 import me.sait.mobarena.extension.integration.placeholderapi.events.MAPlaceholderEvent;
 import me.sait.mobarena.extension.log.LogHelper;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
