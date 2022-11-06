@@ -1,10 +1,10 @@
-# Mob Arena Extension  [![Build status](https://ci.appveyor.com/api/projects/status/npoql7iisagunifw/branch/master?svg=true)](https://ci.appveyor.com/project/SaitDev/mobarenaextension/branch/master)
+# Mob Arena Extension  [![Build status](https://github.com/SaitDev/MobArenaExtension/actions/workflows/maven.yml/badge.svg)](https://github.com/SaitDev/MobArenaExtension/actions/workflows/maven.yml)
 
 Extend the supporting for 3rd pt plugins or additional features
 
 ## Getting Started
 * Install Spigot/Paper 1.18.2 onward, Java 17 and MobArena (tested on 0.107)
-* Download a snapshot build from [Github Action](https://github.com/SaitDev/MobArenaExtension/actions). Install to your plugins folder
+* Download a release from [SpigotMC](https://www.spigotmc.org/resources/mobarenaextension.106125/) or snapshot [Github Action](https://github.com/SaitDev/MobArenaExtension/actions). Install to your server
 * Enable which module you wanna in `plugins/MobArenaExtension/config.yml`
 
 
