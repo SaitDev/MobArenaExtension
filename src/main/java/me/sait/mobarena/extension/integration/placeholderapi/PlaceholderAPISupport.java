@@ -1,7 +1,9 @@
 package me.sait.mobarena.extension.integration.placeholderapi;
 
+import com.garbagemule.MobArena.ArenaPlayer;
 import com.garbagemule.MobArena.MobArena;
 import com.garbagemule.MobArena.framework.Arena;
+import lombok.val;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.api.Integration;
@@ -36,6 +38,9 @@ public class PlaceholderAPISupport extends PlaceholderExpansion implements Integ
             return event.getResult();
         }
 
+        if (param == null) return null;
+        param = param.toLowerCase();
+
         //global
         if (param.equalsIgnoreCase("prefix")) {
             return getGlobalPrefix();
@@ -53,43 +58,52 @@ public class PlaceholderAPISupport extends PlaceholderExpansion implements Integ
 
         if (param.toLowerCase().startsWith("arena")) {
             if (arena == null) return "";
+            val arenaPlayer = arena.getArenaPlayer(player.getPlayer());
 
-            if (param.equalsIgnoreCase("arena") || param.equalsIgnoreCase("arena_name")) {
-                return arena.getSettings().getName();
+            switch (param) {
+                case "arena":
+                case "arena_name":
+                    return arena.getSettings().getName();
+                case "arena_prefix":
+                    String prefix = arena.getSettings().getString("prefix", "");
+                    return prefix.isEmpty() ? getGlobalPrefix() : prefix;
 
-            } else if (param.equalsIgnoreCase("arena_prefix")) {
-                String prefix = arena.getSettings().getString("prefix", "");
-                if (prefix.isEmpty()) {
-                    return getGlobalPrefix();
-                } else {
-                    return prefix;
-                }
+                case "arena_wave":
+                    return String.valueOf(arena.getWaveManager().getWaveNumber());
+                case "arena_final_wave":
+                    if (arena.getWaveManager().getFinalWave() > 0) {
+                        return String.valueOf(arena.getWaveManager().getFinalWave());
+                    } else {
+                        return "∞";
+                    }
 
-            } else if (param.equalsIgnoreCase("arena_wave")) {
-                return String.valueOf(arena.getWaveManager().getWaveNumber());
+                case "arena_mobs":
+                    return String.valueOf(arena.getMonsterManager().getMonsters().size());
 
-            } else if (param.equalsIgnoreCase("arena_final_wave")) {
-                if (arena.getWaveManager().getFinalWave() > 0) {
-                    return String.valueOf(arena.getWaveManager().getFinalWave());
-                } else {
-                    return "∞";
-                }
+                //TODO those stats provided by core with keys were hard coded with name, might broken in the future
+                case "arena_killed":
+                    return arenaPlayer == null ? null
+                            : String.valueOf(arenaPlayer.getStats().getInt("kills"));
+                case "arena_damage_dealt":
+                    return arenaPlayer == null ? null
+                            : String.valueOf(arenaPlayer.getStats().getInt("dmgDone"));
+                case "arena_damage_received":
+                    return arenaPlayer == null ? null
+                            : String.valueOf(arenaPlayer.getStats().getInt("dmgTaken"));
 
-            } else if (param.equalsIgnoreCase("arena_mobs")) {
-                return String.valueOf(arena.getMonsterManager().getMonsters().size());
+                case "arena_player_join":
+                    return String.valueOf(arena.getArenaPlayerSet().size());
+                case "arena_player_live":
+                    return String.valueOf(arena.getPlayersInArena().size());
 
-            //TODO those stats provided by core with keys were hard coded with name, might broken in the future
-            } else if (param.equalsIgnoreCase("arena_killed")) {
-                return String.valueOf(arena.getArenaPlayer(player.getPlayer()).getStats().getInt("kills"));
-
-            } else if (param.equalsIgnoreCase("arena_damage_dealt")) {
-                return String.valueOf(arena.getArenaPlayer(player.getPlayer()).getStats().getInt("dmgDone"));
-
-            } else if (param.equalsIgnoreCase("arena_damage_received")) {
-                return String.valueOf(arena.getArenaPlayer(player.getPlayer()).getStats().getInt("dmgTaken"));
             }
         } else if (param.toLowerCase().startsWith("player")) {
-            ;
+            switch (param) {
+                case "player_total_joined": //TODO
+                    break;
+                case "player_total_won": //TODO
+                    break;
+            }
         }
 
         return null;

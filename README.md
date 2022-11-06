@@ -26,11 +26,13 @@ mobarena_total_enabled | amount of arenas is enabled
 mobarena_arena_name | name of arena that player is in
 mobarena_arena_prefix | prefix of arena that player is in
 mobarena_arena_wave | current wave of arena
-mobarena_arena_final_wave | 
+mobarena_arena_final_wave | final wave of arena
 mobarena_arena_mobs | amount of live mobs
 mobarena_arena_killed | mobs that that player killed in this run
 mobarena_arena_damage_dealt | damages that player dealt in this run
 mobarena_arena_damage_received | damages that player received in this run
+mobarena_arena_player_join | players joining this arena
+mobarena_arena_player_live | players fighting in this arena
 
 `DiscordSRV`
 

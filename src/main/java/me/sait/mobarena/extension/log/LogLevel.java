@@ -12,6 +12,6 @@ public enum LogLevel {
         LogLevel[] values = LogLevel.values();
         if (values.length < 1) return null;
 
-        return values[values.length - 1];
+        return values[0];
     }
 }

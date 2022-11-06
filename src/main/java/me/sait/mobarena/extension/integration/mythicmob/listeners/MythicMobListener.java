@@ -7,6 +7,7 @@ import io.lumine.mythic.core.mobs.ActiveMob;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.integration.mythicmob.MythicMobsSupport;
 import me.sait.mobarena.extension.log.LogHelper;
+import me.sait.mobarena.extension.log.LogLevel;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -62,6 +63,7 @@ public class MythicMobListener implements Listener {
                 if (ConfigManager.isBlockNonArenaMythicMob()) {
                     //cant cancel event since we run this on later tick
                     event.getEntity().remove();
+                    LogHelper.log("Prevent non-arena mythic mob spawned inside arena: " + event.getMobType().getInternalName(), LogLevel.DETAIL);
 //                    event.setCancelled();
                 }
             }
