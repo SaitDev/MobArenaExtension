@@ -2,12 +2,10 @@ package me.sait.mobarena.extension.integration.mythicmob;
 
 import com.garbagemule.MobArena.framework.Arena;
 import com.garbagemule.MobArena.waves.MACreature;
-import io.lumine.xikage.mythicmobs.MythicMobs;
-import io.lumine.xikage.mythicmobs.api.exceptions.InvalidMobTypeException;
-import io.lumine.xikage.mythicmobs.mobs.MythicMob;
+import io.lumine.mythic.api.exceptions.InvalidMobTypeException;
+import io.lumine.mythic.api.mobs.MythicMob;
+import io.lumine.mythic.bukkit.MythicBukkit;
 import me.sait.mobarena.extension.log.LogHelper;
-import me.sait.mobarena.extension.log.LogLevel;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -21,8 +19,7 @@ public class MythicMobCreature extends MACreature {
     private final Boolean isLivingEntity;
 
     public MythicMobCreature(MythicMobsSupport mythicMobsSupport, MythicMob mythicMob) {
-        super(mythicMob.getInternalName().toLowerCase().replaceAll("[-_\\.]",""),
-                EntityType.fromName(mythicMob.getEntityType()));
+        super(EntityType.fromName(mythicMob.getEntityType()), mythicMob.getInternalName());
 
         this.mythicMobsSupport = mythicMobsSupport;
         this.mythicMob = mythicMob;
@@ -52,7 +49,7 @@ public class MythicMobCreature extends MACreature {
     @Override
     public LivingEntity spawn(Arena arena, World world, Location location) {
         try {
-            Entity mMob = MythicMobs.inst().getAPIHelper().spawnMythicMob(mythicMob, location, 0);
+            Entity mMob = MythicBukkit.inst().getAPIHelper().spawnMythicMob(mythicMob, location, 0);
             if (mMob instanceof LivingEntity) {
                 mythicMobsSupport.arenaSpawnMythicMob(arena, mMob);
                 LivingEntity livingEntity = ((LivingEntity) mMob);
@@ -73,6 +70,7 @@ public class MythicMobCreature extends MACreature {
             }
         } catch (InvalidMobTypeException e) {
             //mythic mobs were reload but ma creatures can not be unregistered for compatible
+            LogHelper.error("Unknown mythic mob: " + mythicMob.getInternalName());
             return null;
         }
     }

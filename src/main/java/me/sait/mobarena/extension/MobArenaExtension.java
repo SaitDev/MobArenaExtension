@@ -10,7 +10,6 @@ import me.sait.mobarena.extension.integration.placeholderapi.PlaceholderAPISuppo
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
 import me.sait.mobarena.extension.services.MetricsService;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
