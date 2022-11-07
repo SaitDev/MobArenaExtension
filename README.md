@@ -15,9 +15,9 @@ Extend the supporting for 3rd pt plugins or additional features
 * Restart your server (see [Known issues](#Known-Issues))
 * Use mythic mob's name in arena waves config
 
-`PlaceholderAPI`
+**~~PlaceholderAPI~~**  No longer available in 0.3, but good new, placeholder is now officially supported [MobArenaPlaceholders](https://github.com/mobarena/MobArenaPlaceholders)
 
-Added placeholder (still updating):
+0.2 placeholders :
 
 Key | description
 ------------|-------------
