@@ -3,7 +3,7 @@
 Extend the supporting for 3rd pt plugins or additional features
 
 ## Getting Started
-* Install Spigot/Paper 1.18.2 onward, Java 17 and MobArena (tested on 0.107)
+* Install Spigot/Paper 1.18.2, Java 17 and MobArena 0.107 or higher
 * Download a release from [SpigotMC](https://www.spigotmc.org/resources/mobarenaextension.106125/) or snapshot [Github Action](https://github.com/SaitDev/MobArenaExtension/actions). Install to your server
 * Enable which module you wanna in `plugins/MobArenaExtension/config.yml`
 
@@ -12,10 +12,12 @@ Extend the supporting for 3rd pt plugins or additional features
 
 `MythicMobs`
 * Install MythicMobs, requires version 5 onward. Then create cool mobs ([docs](https://mythicmobs.net/manual/) on their offical website)
-* Restart your server (see [Known issues](#Known-Issues))
+* Reload extension `/mobarenaextension reload` (restart server if using version before 0.3)
 * Use mythic mob's name in arena waves config
 
-**~~PlaceholderAPI~~**  No longer available in 0.3, but good new, placeholder is now officially supported [MobArenaPlaceholders](https://github.com/mobarena/MobArenaPlaceholders)
+(Check [Known issues](#Known-Issues))
+
+**~~PlaceholderAPI~~**  No longer available in 0.3, but good news, placeholder is now officially supported [MobArenaPlaceholders](https://github.com/mobarena/MobArenaPlaceholders)
 
 0.2 placeholders :
 
@@ -40,11 +42,10 @@ In isolated chat arena, messages wont be sent to discord.
 
 ### Known Issues
 * MythicMobs allow using some non-living entity (armor stand) but MobArena only allow living entity. Which mean you can not use non-living entity mythic mob in MobArena `yet`
-* Adding new mob, rename or remove mob in MythicMobs wont get sync to MobArena, you should restart server
 * Using similar mythic mob name is not compatible, like `Hero brine`, `hero-brine`, `Hero brines`
 * This is a bug from MythicMob itself, when mob A spawn a minion B --> B has parent that is A. This is intended behaviour, but when using skill `Summon` without radius or with radius = 0, A wont be B's parent. Always use summon radius higher than 0 if you plan to use that in MobArena
 
-3 first issues will need to wait for the next MobArena [major patch](https://github.com/garbagemule/MobArena/projects/5)
+For first issue, will need to wait for the next MobArena [major patch](https://github.com/garbagemule/MobArena/projects/5)
 
 
 ## License
