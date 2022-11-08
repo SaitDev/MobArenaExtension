@@ -9,9 +9,9 @@ public class ConfigManager {
     private static MobArenaExtension plugin;
     private static FileConfiguration fileConfig;
     private static boolean initialized;
-    private static final String mythicMobPrefix = "mythicmob";
-    private static final String discordSrvPrefix = "discordsrv";
-    private static final String enableSetting = ".enable";
+    private static final String MYTHIC_MOB_PREFIX = "mythicmob";
+    private static final String DISCORD_SRV_PREFIX = "discordsrv";
+    private static final String ENABLE_SETTING = ".enable";
 
     public ConfigManager(MobArenaExtension plugin) {
         this.plugin = plugin;
@@ -38,17 +38,17 @@ public class ConfigManager {
 
     public static Boolean isMythicMobEnabled() {
         if (!initialized) return null;
-        return extensionSettings().getBoolean(mythicMobPrefix + enableSetting, false);
+        return extensionSettings().getBoolean(MYTHIC_MOB_PREFIX + ENABLE_SETTING, false);
     }
 
     public static Boolean isBlockNonArenaMythicMob() {
         if (!initialized) return null;
-        return extensionSettings().getBoolean(mythicMobPrefix + ".block-non-arena-mythic-mob", true);
+        return extensionSettings().getBoolean(MYTHIC_MOB_PREFIX + ".block-non-arena-mythic-mob", true);
     }
 
     public static Boolean isDiscordSrvEnabled() {
         if (!initialized) return null;
-        return extensionSettings().getBoolean(discordSrvPrefix + enableSetting, false);
+        return extensionSettings().getBoolean(DISCORD_SRV_PREFIX + ENABLE_SETTING, false);
     }
 
     //Section

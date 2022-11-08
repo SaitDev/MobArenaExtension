@@ -1,40 +1,44 @@
 package me.sait.mobarena.extension.integration.discordsrv;
 
-import com.garbagemule.MobArena.MobArena;
-import com.garbagemule.MobArena.framework.Arena;
 import github.scarsz.discordsrv.DiscordSRV;
-import me.sait.mobarena.extension.api.Integration;
-import me.sait.mobarena.extension.integration.discordsrv.listeners.DiscordSrvListener;
-import org.bukkit.entity.Player;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import me.sait.mobarena.core.MobArenaAdapter;
+import me.sait.mobarena.core.api.Integration;
+import me.sait.mobarena.extension.config.ConfigManager;
+import me.sait.mobarena.extension.log.LogHelper;
+import me.sait.mobarena.extension.log.LogLevel;
+import org.bukkit.Bukkit;
 
+@RequiredArgsConstructor
 public class DiscordSrvSupport implements Integration {
-    public static final String pluginName = "DiscordSRV";
-    private MobArena mobArena;
+    public static final String PLUGIN_NAME = "DiscordSRV";
+    @Getter(AccessLevel.PACKAGE)
+    private final MobArenaAdapter mobArenaAdapter;
     private DiscordSrvListener discordSrvListener;
 
-    public DiscordSrvSupport(MobArena mobArena) {
-        this.mobArena = mobArena;
+    @Override
+    public boolean shouldEnable() {
+        return ConfigManager.isDiscordSrvEnabled();
     }
 
     @Override
     public void onEnable() {
+        if (!Bukkit.getServer().getPluginManager().isPluginEnabled(PLUGIN_NAME)) {
+            LogHelper.log(
+                    "DiscordSRV plugin can not be found. Install it or disable discordsrv extension in config",
+                    LogLevel.CRITICAL
+            );
+//                getServer().getPluginManager().disablePlugin(this);
+        }
+
         registerListeners();
     }
 
     @Override
-    public void onReload() {}
-
-    @Override
     public void onDisable() {
         unregisterListeners();
-    }
-
-    public boolean inIsolatedChatArena(Player player) {
-        Arena arena = mobArena.getArenaMaster().getArenaWithPlayer(player);
-        if (arena != null && arena.hasIsolatedChat()) {
-            return true;
-        }
-        return false;
     }
 
     private void registerListeners() {

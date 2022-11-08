@@ -1,4 +1,4 @@
-package me.sait.mobarena.extension.integration.discordsrv.listeners;
+package me.sait.mobarena.extension.integration.discordsrv;
 
 import github.scarsz.discordsrv.api.Subscribe;
 import github.scarsz.discordsrv.api.events.GameChatMessagePreProcessEvent;
@@ -15,7 +15,7 @@ public class DiscordSrvListener {
     public void onMinecraftMessagePreProcess(GameChatMessagePreProcessEvent event) {
         if (event.isCancelled()) return;
 
-        if (discordSrvSupport.inIsolatedChatArena(event.getPlayer())) {
+        if (discordSrvSupport.getMobArenaAdapter().inIsolatedChatArena(event.getPlayer())) {
             event.setCancelled(true);
         }
     }
