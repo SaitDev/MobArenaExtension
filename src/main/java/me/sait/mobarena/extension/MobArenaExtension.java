@@ -1,73 +1,73 @@
 package me.sait.mobarena.extension;
 
 import com.garbagemule.MobArena.MobArena;
-import me.sait.mobarena.extension.api.Integration;
+import me.sait.mobarena.core.MobArenaAdapter;
+import me.sait.mobarena.core.api.Integration;
+import me.sait.mobarena.extension.commands.CommandHandler;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.config.Constants;
 import me.sait.mobarena.extension.integration.discordsrv.DiscordSrvSupport;
-import me.sait.mobarena.extension.integration.mythicmob.MythicMobsSupport;
+import me.sait.mobarena.extension.integration.mythicmob.MythicMobsAdapter;
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
 import me.sait.mobarena.extension.services.MetricsService;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class MobArenaExtension extends JavaPlugin {
     private ConfigManager configManager;
-    private MobArena mobArena;
     private MetricsService metricsService;
+    private MobArenaAdapter mobArenaAdapter;
 
-    private static List<Integration> extensions;
-    private MythicMobsSupport mythicMobsSupport;
+    /**
+     * integrated module - running
+     */
+    private static Map<Integration, Boolean> extensions = new HashMap<>();
+    private MythicMobsAdapter mythicMobsAdapter;
     private DiscordSrvSupport discordSrvSupport;
 
     public static MobArenaExtension getPlugin() {
         return getPlugin(MobArenaExtension.class);
     }
 
+    public static void runTask(Runnable task, long delay) {
+        Bukkit.getScheduler().runTaskLater(getPlugin(), task, delay);
+    }
+
+    @Override
+    public void onLoad() {
+        setupConfig();
+    }
+
     @Override
     public void onEnable() {
-        if (extensions == null) {
-            extensions = new ArrayList<>();
-        }
-
-        setupConfig();
-
         initMobArena();
         initMythicMob();
         initDiscordSrv();
 
         startServices();
+
+        getCommand("mobarenaextension").setExecutor(new CommandHandler(this));
     }
 
     @Override
     public void onDisable() {
-        //TODO - graceful disable all modules
-        disableDiscordSrv();
+        for (Integration integration : extensions.keySet()) {
+            if (Boolean.TRUE.equals(extensions.get(integration))) {
+                disableExtension(integration);
+            }
+        }
     }
 
-    public static boolean registerExtension(Integration extension) {
-        if (extensions == null) {
-            extensions = new ArrayList<>();
-        }
-        try {
-            if (extension == null) return false;
-
-            extension.onEnable();
-        } catch (Exception e) {
-            LogHelper.log(e);
-            try {
-                extension.onDisable();
-            } catch (Exception ex) {
-                LogHelper.log(e);
-            }
-            return false;
-        }
-        extensions.add(extension);
-        return true;
+    public void reload() {
+        loadDefaultConfig();
+        reloadConfig();
+        configManager.reload();
+        reloadExtensions();
     }
 
     private void setupConfig() {
@@ -85,10 +85,56 @@ public final class MobArenaExtension extends JavaPlugin {
         }
     }
 
-    private void reload() {
-        loadDefaultConfig();
-        reloadConfig();
-        configManager.reload();
+    /**
+     *
+     * @param extension
+     * @return whether its successfully registered (but not mean enabled or not. @see MobArenaExtension.extensions)
+     */
+    public static boolean registerExtension(Integration extension) {
+        if (extension == null) return false;
+
+        if (extensions.containsKey(extension)) {
+            throw new IllegalStateException("Extension has been already registered");
+        }
+
+        extensions.put(extension, false);
+        try {
+            if (extension.shouldEnable()) {
+                enableExtension(extension);
+            }
+        } catch (RuntimeException e) {
+            LogHelper.log(null, LogLevel.CRITICAL, e);
+            try {
+                disableExtension(extension);
+            } catch (RuntimeException ex) {
+                LogHelper.error(null, ex);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private void reloadExtensions() {
+        LogHelper.log("Reloading extensions", LogLevel.DETAIL);
+        for (Integration integration : extensions.keySet()) {
+            if (Boolean.TRUE.equals(extensions.get(integration))) {
+                disableExtension(integration);
+            }
+            if (integration.shouldEnable()) {
+                enableExtension(integration);
+            }
+        }
+    }
+
+    private static void enableExtension(Integration extension) {
+        LogHelper.debug("Starting extension " + extension.getClass().getSimpleName());
+        extension.onEnable();
+        extensions.put(extension, true);
+    }
+    private static void disableExtension(Integration extension) {
+        LogHelper.debug("Stopping extension " + extension.getClass().getSimpleName());
+        extension.onDisable();
+        extensions.put(extension, false);
     }
 
     private void startServices() {
@@ -97,56 +143,27 @@ public final class MobArenaExtension extends JavaPlugin {
     }
 
     private void initMobArena() {
-        mobArena = (MobArena) getServer().getPluginManager().getPlugin(Constants.MOB_ARENA_PLUGIN_NAME);
+        MobArena mobArena = (MobArena) getServer().getPluginManager().getPlugin(Constants.MOB_ARENA_PLUGIN_NAME);
         if (mobArena == null || !mobArena.isEnabled()) {
             throw new NullPointerException("This extension requires core plugin MobArena installed and enabled");
         }
+        mobArenaAdapter = new MobArenaAdapter(mobArena);
+        registerExtension(mobArenaAdapter);
     }
 
     private void initMythicMob() {
-        if (configManager.isMythicMobEnabled()) {
-            LogHelper.log("Init mythic mob", LogLevel.DETAIL);
-            if (!getServer().getPluginManager().isPluginEnabled(MythicMobsSupport.pluginName)) {
-                LogHelper.log(
-                        "MythicMobs plugin can not be found. Install it or disable mythicmob extension in config",
-                        LogLevel.CRITICAL
-                );
-                getServer().getPluginManager().disablePlugin(this);
-            }
-
-            mythicMobsSupport = new MythicMobsSupport(this, mobArena);
-            mythicMobsSupport.onEnable();
-            extensions.add(mythicMobsSupport);
-
-            try {
-                if (mobArena.getLastFailureCause() != null) {
-                    LogHelper.debug("Auto reload MobArena so it load mythic mobs now if have");
-                    mobArena.reload();
-                }
-            } catch (RuntimeException error) {}
-        }
+        mythicMobsAdapter = new MythicMobsAdapter(this, mobArenaAdapter);
+        registerExtension(mythicMobsAdapter);
     }
 
     private void initDiscordSrv() {
-        if (configManager.isDiscordSrvEnabled()) {
-            LogHelper.log("Init discordsrv", LogLevel.DETAIL);
-            if (!getServer().getPluginManager().isPluginEnabled(DiscordSrvSupport.pluginName)) {
-                LogHelper.log(
-                        "DiscordSRV plugin can not be found. Install it or disable discordsrv extension in config",
-                        LogLevel.CRITICAL
-                );
-                getServer().getPluginManager().disablePlugin(this);
-            }
-
-            discordSrvSupport = new DiscordSrvSupport(mobArena);
-            discordSrvSupport.onEnable();
-            extensions.add(discordSrvSupport);
-        }
+        discordSrvSupport = new DiscordSrvSupport(mobArenaAdapter);
+        registerExtension(discordSrvSupport);
     }
 
     private void disableDiscordSrv() {
         if (configManager.isDiscordSrvEnabled() &&
-                getServer().getPluginManager().isPluginEnabled(DiscordSrvSupport.pluginName) &&
+                getServer().getPluginManager().isPluginEnabled(DiscordSrvSupport.PLUGIN_NAME) &&
                 discordSrvSupport != null
         ) {
             discordSrvSupport.onDisable();

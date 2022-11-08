@@ -6,7 +6,5 @@ extension:
     enable: false
     #any mythic mobs spawn inside arena but ain't a mob of arena will be removed
     block-non-arena-mythic-mob: true
-  placeholderapi:
-    enable: false
   discordsrv:
     enable: false

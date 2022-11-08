@@ -4,6 +4,7 @@ import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.config.ConfigManager;
 import org.bukkit.Bukkit;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LogHelper {
@@ -25,6 +26,10 @@ public class LogHelper {
         log(message, LogLevel.ERROR);
     }
 
+    public static void error(String message, Throwable e) {
+        log(message, LogLevel.ERROR, e);
+    }
+
     public static void log(Object obj) {
         log(String.valueOf(obj));
     }
@@ -38,22 +43,39 @@ public class LogHelper {
     }
 
     public static void log(String message, LogLevel level) {
+        log(message, level, null);
+    }
+
+    public static void log(String message, LogLevel level, Throwable e) {
         if (level == null) level = defaulLevel;
 
         Integer levelSetting = ConfigManager.isInitialized() ? ConfigManager.getLogLevel() : defaulLevel.ordinal();
-        if (levelSetting > LogLevel.getLowestPriority().ordinal()) {
-            levelSetting = LogLevel.getLowestPriority().ordinal();
+        if (levelSetting > LogLevel.getHighestPriority().ordinal()) {
+            levelSetting = LogLevel.getHighestPriority().ordinal();
         }
         if (level.ordinal() < levelSetting) {
+            //skip logs at this level
             return;
         }
 
         if (level.ordinal() >= LogLevel.ERROR.ordinal()) {
-            getLog().severe(message);
-        } else if (level.ordinal() >= LogLevel.WARNING.ordinal()) {
-            getLog().warning(message);
+            if (e == null) {
+                getLog().severe(message);
+            } else {
+                getLog().log(Level.SEVERE, e, () -> message);
+            }
+        } else if (level.ordinal() == LogLevel.WARNING.ordinal()) {
+            if (e == null) {
+                getLog().warning(message);
+            } else {
+                getLog().log(Level.WARNING, e, () -> message);
+            }
         } else {
-            getLog().info(message);
+            if (e == null) {
+                getLog().info(message);
+            } else {
+                getLog().log(Level.INFO, e, () -> message);
+            }
         }
     }
 

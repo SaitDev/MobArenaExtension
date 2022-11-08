@@ -8,10 +8,10 @@ public enum LogLevel {
     ERROR,
     CRITICAL;
 
-    public static LogLevel getLowestPriority() {
+    public static LogLevel getHighestPriority() {
         LogLevel[] values = LogLevel.values();
         if (values.length < 1) return null;
 
-        return values[0];
+        return values[values.length - 1];
     }
 }
