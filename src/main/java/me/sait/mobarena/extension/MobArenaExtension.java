@@ -6,7 +6,7 @@ import me.sait.mobarena.core.api.Integration;
 import me.sait.mobarena.extension.commands.CommandHandler;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.config.Constants;
-import me.sait.mobarena.extension.integration.discordsrv.DiscordSrvSupport;
+import me.sait.mobarena.extension.integration.discordsrv.DiscordSrvAdapter;
 import me.sait.mobarena.extension.integration.mythicmob.MythicMobsAdapter;
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
@@ -28,7 +28,7 @@ public final class MobArenaExtension extends JavaPlugin {
      */
     private static Map<Integration, Boolean> extensions = new HashMap<>();
     private MythicMobsAdapter mythicMobsAdapter;
-    private DiscordSrvSupport discordSrvSupport;
+    private DiscordSrvAdapter discordSrvAdapter;
 
     public static MobArenaExtension getPlugin() {
         return getPlugin(MobArenaExtension.class);
@@ -157,17 +157,17 @@ public final class MobArenaExtension extends JavaPlugin {
     }
 
     private void initDiscordSrv() {
-        discordSrvSupport = new DiscordSrvSupport(mobArenaAdapter);
-        registerExtension(discordSrvSupport);
+        discordSrvAdapter = new DiscordSrvAdapter(mobArenaAdapter);
+        registerExtension(discordSrvAdapter);
     }
 
     private void disableDiscordSrv() {
         if (configManager.isDiscordSrvEnabled() &&
-                getServer().getPluginManager().isPluginEnabled(DiscordSrvSupport.PLUGIN_NAME) &&
-                discordSrvSupport != null
+                getServer().getPluginManager().isPluginEnabled(DiscordSrvAdapter.PLUGIN_NAME) &&
+                discordSrvAdapter != null
         ) {
-            discordSrvSupport.onDisable();
-            extensions.remove(discordSrvSupport);
+            discordSrvAdapter.onDisable();
+            extensions.remove(discordSrvAdapter);
         }
     }
 }

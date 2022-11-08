@@ -111,11 +111,11 @@ public class MythicMobsAdapter implements Integration {
     private void unregisterMobs() {
         for (MythicMob registeredMob : registeredMobs.toArray(new MythicMob[0])) {
             String creatureKey = MythicMobCreature.getCreatureKey(registeredMob);
-            MACreature maCreature = originalMACreatures.get(creatureKey);
-            if (maCreature == null || maCreature instanceof MythicMobCreature) {
+            MACreature originalMACreature = originalMACreatures.get(creatureKey);
+            if (originalMACreature == null || originalMACreature instanceof MythicMobCreature) {
                 MythicMobCreature.register(creatureKey, null);
             } else {
-                MythicMobCreature.register(creatureKey, originalMACreatures.get(creatureKey));
+                MythicMobCreature.register(creatureKey, originalMACreature);
             }
             registeredMobs.remove(registeredMob);
         }

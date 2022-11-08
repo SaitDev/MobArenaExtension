@@ -12,7 +12,7 @@ import me.sait.mobarena.extension.log.LogLevel;
 import org.bukkit.Bukkit;
 
 @RequiredArgsConstructor
-public class DiscordSrvSupport implements Integration {
+public class DiscordSrvAdapter implements Integration {
     public static final String PLUGIN_NAME = "DiscordSRV";
     @Getter(AccessLevel.PACKAGE)
     private final MobArenaAdapter mobArenaAdapter;
