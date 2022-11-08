@@ -14,7 +14,7 @@ public class CommandHandler implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         //simple command for now. TODO improve it later
-        if (args.length > 1) {
+        if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("reload")) {
                 extension.reload();
                 commandSender.sendMessage("[MobArenaExtension] finish reloading");

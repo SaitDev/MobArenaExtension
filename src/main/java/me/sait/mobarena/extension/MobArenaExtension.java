@@ -114,15 +114,19 @@ public final class MobArenaExtension extends JavaPlugin {
         return true;
     }
 
+    public void reloadExtension(Integration extension) {
+        if (Boolean.TRUE.equals(extensions.get(extension))) {
+            disableExtension(extension);
+        }
+        if (extension.shouldEnable()) {
+            enableExtension(extension);
+        }
+    }
+
     private void reloadExtensions() {
         LogHelper.log("Reloading extensions", LogLevel.DETAIL);
         for (Integration integration : extensions.keySet()) {
-            if (Boolean.TRUE.equals(extensions.get(integration))) {
-                disableExtension(integration);
-            }
-            if (integration.shouldEnable()) {
-                enableExtension(integration);
-            }
+            reloadExtension(integration);
         }
     }
 

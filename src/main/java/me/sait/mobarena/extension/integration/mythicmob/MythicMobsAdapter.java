@@ -69,6 +69,10 @@ public class MythicMobsAdapter implements Integration {
         }
     }
 
+    public void reload() {
+        extension.reloadExtension(this);
+    }
+
     private void registerListeners() {
         val mythicMobListener = new MythicMobListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(mythicMobListener, extension);
