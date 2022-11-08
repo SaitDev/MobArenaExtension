@@ -3,6 +3,7 @@ package me.sait.mobarena.extension;
 import com.garbagemule.MobArena.MobArena;
 import me.sait.mobarena.core.MobArenaAdapter;
 import me.sait.mobarena.core.api.Integration;
+import me.sait.mobarena.extension.commands.CommandHandler;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.config.Constants;
 import me.sait.mobarena.extension.integration.discordsrv.DiscordSrvSupport;
@@ -49,6 +50,8 @@ public final class MobArenaExtension extends JavaPlugin {
         initDiscordSrv();
 
         startServices();
+
+        getCommand("mobarenaextension").setExecutor(new CommandHandler(this));
     }
 
     @Override
@@ -58,6 +61,13 @@ public final class MobArenaExtension extends JavaPlugin {
                 disableExtension(integration);
             }
         }
+    }
+
+    public void reload() {
+        loadDefaultConfig();
+        reloadConfig();
+        configManager.reload();
+        reloadExtensions();
     }
 
     private void setupConfig() {

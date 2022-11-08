@@ -61,6 +61,12 @@ public class MythicMobsAdapter implements Integration {
 
     @Override
     public void onDisable() {
+        unregisterListeners();
+        unregisterMobs();
+        if (!shouldEnable()) {
+            LogHelper.info("Disabled extension MythicMobs, no mythic mobs will work in MobArena");
+            mobArenaAdapter.coreReload();
+        }
     }
 
     private void registerListeners() {
@@ -71,6 +77,13 @@ public class MythicMobsAdapter implements Integration {
         val mobArenaMythicMobListener = new MobArenaMythicMobListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(mobArenaMythicMobListener, extension);
         listeners.add(mobArenaMythicMobListener);
+    }
+
+    private void unregisterListeners() {
+        for (Listener listener : listeners.toArray(new Listener[0])) {
+            HandlerList.unregisterAll(listener);
+            listeners.remove(listener);
+        }
     }
 
     private void registerMobs() {
@@ -92,6 +105,19 @@ public class MythicMobsAdapter implements Integration {
                 registeredMobs.add(mob);
                 LogHelper.debug("Registered mythic mob: " + mob.getInternalName());
             }
+        }
+    }
+
+    private void unregisterMobs() {
+        for (MythicMob registeredMob : registeredMobs.toArray(new MythicMob[0])) {
+            String creatureKey = MythicMobCreature.getCreatureKey(registeredMob);
+            MACreature maCreature = originalMACreatures.get(creatureKey);
+            if (maCreature == null || maCreature instanceof MythicMobCreature) {
+                MythicMobCreature.register(creatureKey, null);
+            } else {
+                MythicMobCreature.register(creatureKey, originalMACreatures.get(creatureKey));
+            }
+            registeredMobs.remove(registeredMob);
         }
     }
 
