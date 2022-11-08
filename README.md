@@ -1,4 +1,4 @@
-# Mob Arena Extension  [![Build status](https://github.com/SaitDev/MobArenaExtension/actions/workflows/maven.yml/badge.svg)](https://github.com/SaitDev/MobArenaExtension/actions/workflows/maven.yml)
+# Mob Arena Extension  [![Build status](https://github.com/SaitDev/MobArenaExtension/actions/workflows/snapshot.yml/badge.svg)](https://github.com/SaitDev/MobArenaExtension/actions/workflows/maven.yml)
 
 Extend the supporting for 3rd pt plugins or additional features
 
