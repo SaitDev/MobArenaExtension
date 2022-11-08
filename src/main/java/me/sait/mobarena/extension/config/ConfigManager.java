@@ -10,7 +10,6 @@ public class ConfigManager {
     private static FileConfiguration fileConfig;
     private static boolean initialized;
     private static final String mythicMobPrefix = "mythicmob";
-    private static final String placeholderAPIPrefix = "placeholderapi";
     private static final String discordSrvPrefix = "discordsrv";
     private static final String enableSetting = ".enable";
 
@@ -45,11 +44,6 @@ public class ConfigManager {
     public static Boolean isBlockNonArenaMythicMob() {
         if (!initialized) return null;
         return extensionSettings().getBoolean(mythicMobPrefix + ".block-non-arena-mythic-mob", true);
-    }
-
-    public static Boolean isPlaceholderAPIEnabled() {
-        if (!initialized) return null;
-        return extensionSettings().getBoolean(placeholderAPIPrefix + enableSetting, false);
     }
 
     public static Boolean isDiscordSrvEnabled() {

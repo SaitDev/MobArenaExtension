@@ -6,7 +6,6 @@ import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.config.Constants;
 import me.sait.mobarena.extension.integration.discordsrv.DiscordSrvSupport;
 import me.sait.mobarena.extension.integration.mythicmob.MythicMobsSupport;
-import me.sait.mobarena.extension.integration.placeholderapi.PlaceholderAPISupport;
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
 import me.sait.mobarena.extension.services.MetricsService;
@@ -23,7 +22,6 @@ public final class MobArenaExtension extends JavaPlugin {
 
     private static List<Integration> extensions;
     private MythicMobsSupport mythicMobsSupport;
-    private PlaceholderAPISupport placeholderAPISupport;
     private DiscordSrvSupport discordSrvSupport;
 
     public static MobArenaExtension getPlugin() {
@@ -40,7 +38,6 @@ public final class MobArenaExtension extends JavaPlugin {
 
         initMobArena();
         initMythicMob();
-        initPlaceholderAPI();
         initDiscordSrv();
 
         startServices();
@@ -127,23 +124,6 @@ public final class MobArenaExtension extends JavaPlugin {
                     mobArena.reload();
                 }
             } catch (RuntimeException error) {}
-        }
-    }
-
-    private void initPlaceholderAPI() {
-        if (configManager.isPlaceholderAPIEnabled()) {
-            LogHelper.log("Init placeholder api", LogLevel.DETAIL);
-            if (!getServer().getPluginManager().isPluginEnabled(PlaceholderAPISupport.pluginName)) {
-                LogHelper.log(
-                        "PlaceholderAPI plugin can not be found. Install it or disable placeholderapi extension in config",
-                        LogLevel.CRITICAL
-                );
-                getServer().getPluginManager().disablePlugin(this);
-            }
-
-            placeholderAPISupport = new PlaceholderAPISupport(this, mobArena);
-            placeholderAPISupport.onEnable();
-            extensions.add(placeholderAPISupport);
         }
     }
 
