@@ -4,7 +4,7 @@ Extend the supporting for 3rd pt plugins or additional features
 
 ## Getting Started
 * Install Spigot/Paper 1.18.2, Java 17 and MobArena 0.107 or higher
-* Download a release from [SpigotMC](https://www.spigotmc.org/resources/mobarenaextension.106125/) or snapshot [Github Action](https://github.com/SaitDev/MobArenaExtension/actions). Install to your server
+* Download a release from [SpigotMC](https://www.spigotmc.org/resources/mobarenaextension.106125/) or snapshot [Github Action](https://github.com/SaitDev/MobArenaExtension/actions/workflows/snapshot.yml). Install to your server
 * Enable which module you wanna in `plugins/MobArenaExtension/config.yml`
 
 

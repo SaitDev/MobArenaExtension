@@ -3,6 +3,7 @@ package me.sait.mobarena.extension.integration.mythicmob;
 import com.garbagemule.MobArena.framework.Arena;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.bukkit.events.MythicMobSpawnEvent;
+import io.lumine.mythic.bukkit.events.MythicReloadedEvent;
 import io.lumine.mythic.core.mobs.ActiveMob;
 import lombok.RequiredArgsConstructor;
 import me.sait.mobarena.extension.MobArenaExtension;
@@ -67,5 +68,10 @@ public class MythicMobListener implements Listener {
                 }
             }
         }, 1l);
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void pluginReload(MythicReloadedEvent event) {
+        mythicMobsAdapter.reload();
     }
 }
