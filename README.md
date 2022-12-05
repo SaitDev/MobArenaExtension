@@ -43,7 +43,7 @@ In isolated chat arena, messages wont be sent to discord.
 ### Known Issues
 * MythicMobs allow using some non-living entity (armor stand) but MobArena only allow living entity. Which mean you can not use non-living entity mythic mob in MobArena `yet`
 * Using similar mythic mob name is not compatible, like `Hero brine`, `hero-brine`, `Hero brines`
-* This is a bug from MythicMob itself, when mob A spawn a minion B --> B has parent that is A. This is intended behaviour, but when using skill `Summon` without radius or with radius = 0, A wont be B's parent. Always use summon radius higher than 0 if you plan to use that in MobArena
+* This is an issue from MythicMob itself, when mob A spawn a minion B --> B has parent that is A. This is intended behaviour, but when using skill `Summon` without radius or with radius = 0, A wont be B's parent. Always use summon radius higher than 0 if you plan to use that in MobArena
 
 For first issue, will need to wait for the next MobArena [major patch](https://github.com/garbagemule/MobArena/projects/5)
 

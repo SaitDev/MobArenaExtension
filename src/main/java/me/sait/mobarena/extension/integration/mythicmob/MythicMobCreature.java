@@ -4,6 +4,7 @@ import com.garbagemule.MobArena.framework.Arena;
 import com.garbagemule.MobArena.waves.MACreature;
 import io.lumine.mythic.api.exceptions.InvalidMobTypeException;
 import io.lumine.mythic.api.mobs.MythicMob;
+import io.lumine.mythic.api.mobs.entities.MythicEntityType;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import lombok.Getter;
 import lombok.val;
@@ -29,11 +30,15 @@ public class MythicMobCreature extends MACreature {
         this.mythicMob = mythicMob;
 
         EntityType entityType = toEntityType(mythicMob);
-        if (LivingEntity.class.isAssignableFrom(entityType.getEntityClass())) {
+        if (entityType != null && LivingEntity.class.isAssignableFrom(entityType.getEntityClass())) {
             isLivingEntity = true;
         } else {
             isLivingEntity = false;
-            LogHelper.error(mythicMob.getInternalName() + " is not a living entity, currently not compatible with Mob Arena");
+            if (entityType == null) {
+                LogHelper.warn("No entity type found for {0} - {1}", mythicMob.getInternalName(), mythicMob.getEntityType().toString());
+            } else {
+                LogHelper.warn("{0} is not a living entity, currently not compatible with Mob Arena", mythicMob.getInternalName());
+            }
         }
     }
 
@@ -59,20 +64,19 @@ public class MythicMobCreature extends MACreature {
                 }, 1);
                 return livingEntity;
             } else {
-                LogHelper.error(mythicMob.getInternalName() + " is not a living entity, cant spawn in Mob Arena");
                 mMob.remove();
-                throw new UnsupportedOperationException("Not a living entity: " + mythicMob.getInternalName());
+                throw new UnsupportedOperationException(mythicMob.getInternalName() + " is not a living entity, not supported in Mob Arena");
             }
         } catch (InvalidMobTypeException e) {
             //mythic mobs were reload but MA creatures can not be unregistered for compatible
-            LogHelper.error("Unknown mythic mob: " + mythicMob.getInternalName());
+            LogHelper.error("Unknown mythic mob: {0}", mythicMob.getInternalName());
             return null;
         }
     }
 
     private static EntityType toEntityType(MythicMob mythicMob) {
         String mmEntityType = mythicMob.getEntityType() != null
-                ? mythicMob.getEntityType()
+                ? mythicMob.getEntityType().toString() //5.2
                 : mythicMob.getInternalName();
         //MythicEntityType ~ EntityType
         //BukkitEntityType.getMythicEntity()

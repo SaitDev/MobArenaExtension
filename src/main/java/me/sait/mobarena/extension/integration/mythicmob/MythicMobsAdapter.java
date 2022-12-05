@@ -107,7 +107,7 @@ public class MythicMobsAdapter implements Integration {
             if (mmCreature.isLivingEntity()) {
                 MythicMobCreature.register(creatureKey, mmCreature);
                 registeredMobs.add(mob);
-                LogHelper.debug("Registered mythic mob: " + mob.getInternalName());
+                LogHelper.debug("Registered mythic mob: {0}", mob.getInternalName());
             }
         }
     }
