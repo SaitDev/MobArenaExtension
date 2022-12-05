@@ -131,18 +131,18 @@ public final class MobArenaExtension extends JavaPlugin {
     }
 
     private static void enableExtension(Integration extension) {
-        LogHelper.debug("Starting extension " + extension.getClass().getSimpleName());
+        LogHelper.debug("Starting extension {0}", extension.getClass().getSimpleName());
         extension.onEnable();
         extensions.put(extension, true);
     }
     private static void disableExtension(Integration extension) {
-        LogHelper.debug("Stopping extension " + extension.getClass().getSimpleName());
+        LogHelper.debug("Stopping extension {0}", extension.getClass().getSimpleName());
         extension.onDisable();
         extensions.put(extension, false);
     }
 
     private void startServices() {
-        metricsService = new MetricsService();
+        metricsService = new MetricsService(this);
         metricsService.start();
     }
 

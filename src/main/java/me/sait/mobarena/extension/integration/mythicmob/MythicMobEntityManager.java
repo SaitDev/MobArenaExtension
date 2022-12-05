@@ -21,7 +21,7 @@ public class MythicMobEntityManager {
         }
 
         cachedMythicMobs.get(arena).add(entity);
-        LogHelper.debug("A mythic mob spawned inside mob arena: " + entity.getCustomName());
+        LogHelper.debug("A mythic mob spawned inside mob arena: {0}", entity.getCustomName());
     }
 
     public void arenaEnd(Arena arena) {

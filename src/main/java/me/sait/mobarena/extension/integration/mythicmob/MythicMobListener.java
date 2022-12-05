@@ -25,8 +25,9 @@ public class MythicMobListener implements Listener {
     public void mythicMobSpawn(MythicMobSpawnEvent event) {
         MobArenaExtension.runTask(() -> {
             ActiveMob am = MythicBukkit.inst().getAPIHelper().getMythicMobInstance(event.getEntity());
-            LogHelper.debug("A mythic mob spawned, mythic: " + event.getMobType().getInternalName() +
-                    ", entity: " + event.getMobType().getEntityType());
+            LogHelper.debug("A mythic mob spawned, mythic: {0}, entity: {1}",
+                    event.getMobType().getInternalName(),
+                    event.getMobType().getEntityType().toString());
 
             if (mythicMobsAdapter.getMythicMobEntityManager().isInArena(event.getEntity())) {
                 //this is arena mob. no more checking need
@@ -42,15 +43,17 @@ public class MythicMobListener implements Listener {
                 Entity parent = am.getParent().getEntity().getBukkitEntity();
                 ActiveMob parentMM = MythicBukkit.inst().getAPIHelper().getMythicMobInstance(parent);
                 if (parentMM != null) {
-                    LogHelper.debug(event.getMobType().getInternalName() + " spawned via skill Summon by " + parentMM.getType().getInternalName());
+                    LogHelper.debug("{0} spawned via skill Summon by {1}",
+                            event.getMobType().getInternalName(),
+                            parentMM.getType().getInternalName());
                 }
                 if (mythicMobsAdapter.getMythicMobEntityManager().isInArena(parent)) {
-                    LogHelper.debug(event.getMobType().getInternalName() + " was spawn by another mythic mob inside mob arena");
+                    LogHelper.debug("{0} was spawn by another mythic mob inside mob arena", event.getMobType().getInternalName());
                     Arena arena = mythicMobsAdapter.getMythicMobEntityManager().getInArena(parent);
                     if (event.getEntity() instanceof LivingEntity) {
                         arena.getMonsterManager().addMonster((LivingEntity) event.getEntity());
                     } else {
-                        LogHelper.error(event.getMobType().getInternalName() + " is not a living entity, currently not compatible with Mob Arena");
+                        LogHelper.error("{0} is not a living entity, currently not compatible with Mob Arena", event.getMobType().getInternalName());
                     }
                     mythicMobsAdapter.getMythicMobEntityManager().arenaSpawnMythicMob(arena, event.getEntity());
                     return;
@@ -58,7 +61,7 @@ public class MythicMobListener implements Listener {
             }
 
             if (mythicMobsAdapter.getMobArenaAdapter().getArenaAtLocation(event.getLocation()) != null) {
-                LogHelper.debug("A non-arena mythic mob spawned inside arena: "  +
+                LogHelper.debug("A non-arena mythic mob spawned inside arena: {0}",
                         event.getMobType().getInternalName());
                 if (ConfigManager.isBlockNonArenaMythicMob()) {
                     //cant cancel event since we run this on later tick
@@ -70,7 +73,7 @@ public class MythicMobListener implements Listener {
         }, 1l);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void pluginReload(MythicReloadedEvent event) {
         mythicMobsAdapter.reload();
     }

@@ -1,18 +1,19 @@
 package me.sait.mobarena.extension.services;
 
+import lombok.RequiredArgsConstructor;
 import me.sait.mobarena.extension.MobArenaExtension;
+import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.config.Constants;
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
 import org.bstats.bukkit.Metrics;
 
-public class MetricsService {
-    private MobArenaExtension extension;
-    private Metrics metrics;
+import java.util.Map;
 
-    public MetricsService() {
-        extension = MobArenaExtension.getPlugin();
-    }
+@RequiredArgsConstructor
+public class MetricsService {
+    private final MobArenaExtension extension;
+    private Metrics metrics;
 
     public void start() {
         if (extension == null || !extension.isEnabled()) {

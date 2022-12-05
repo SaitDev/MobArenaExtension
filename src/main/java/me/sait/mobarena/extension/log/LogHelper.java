@@ -4,6 +4,7 @@ import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.config.ConfigManager;
 import org.bukkit.Bukkit;
 
+import java.text.MessageFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,16 +15,32 @@ public class LogHelper {
         log(message, LogLevel.DEBUG);
     }
 
+    public static void debug(String messagePattern, String... params) {
+        log(MessageFormat.format(messagePattern, params), LogLevel.DEBUG);
+    }
+
     public static void info(String message) {
         log(message, LogLevel.USEFUL);
+    }
+
+    public static void info(String messagePattern, String... params) {
+        log(MessageFormat.format(messagePattern, params), LogLevel.USEFUL);
     }
 
     public static void warn(String message) {
         log(message, LogLevel.WARNING);
     }
 
+    public static void warn(String messagePattern, String... params) {
+        log(MessageFormat.format(messagePattern, params), LogLevel.WARNING);
+    }
+
     public static void error(String message) {
         log(message, LogLevel.ERROR);
+    }
+
+    public static void error(String messagePattern, String... params) {
+        log(MessageFormat.format(messagePattern, params), LogLevel.ERROR);
     }
 
     public static void error(String message, Throwable e) {
@@ -56,6 +73,10 @@ public class LogHelper {
         if (level.ordinal() < levelSetting) {
             //skip logs at this level
             return;
+        }
+
+        if (getLog() == null) {
+            System.out.println("[MobArenaExtension] Can not find plugin logger");
         }
 
         if (level.ordinal() >= LogLevel.ERROR.ordinal()) {

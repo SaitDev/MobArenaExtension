@@ -12,6 +12,5 @@ commands:
   mobarenaextension:
     description: Base command for MobArenaExtension
     usage: |
-      MobArenaExtension failed to load.
-      There is an error in your server log with details.
-    aliases: [max, maex]
+      /max reload
+    aliases: [max, maex, mae]
