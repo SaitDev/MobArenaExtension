@@ -16,8 +16,10 @@ public class CommandHandler implements CommandExecutor {
         //simple command for now. TODO improve it later
         if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("reload")) {
-                extension.reload();
-                commandSender.sendMessage("[MobArenaExtension] finish reloading");
+                if (commandSender.hasPermission("mobarena.extension.reload")) {
+                    extension.reload();
+                    commandSender.sendMessage("[MobArenaExtension] finish reloading");
+                }
             }
         }
         return true;
