@@ -1,9 +1,14 @@
 package me.sait.mobarena.extension.config;
 
+import lombok.val;
 import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.log.LogHelper;
+import me.sait.mobarena.extension.utils.CommonUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ConfigManager {
     private static MobArenaExtension plugin;
@@ -34,6 +39,15 @@ public class ConfigManager {
         return generalSettings().getInt("log-level", LogHelper.defaulLevel.ordinal());
     }
 
+    public static List<?> getAsList(ConfigurationSection section, String path) {
+        val properties = section.getList(path);
+        if (CommonUtils.isEmptyList(properties)) {
+            val property = section.get(path);
+            if (property != null) return Arrays.asList(property);
+        }
+        return properties;
+    }
+
     //Extension
 
     public static Boolean isMythicMobEnabled() {
@@ -44,6 +58,10 @@ public class ConfigManager {
     public static Boolean isBlockNonArenaMythicMob() {
         if (!initialized) return null;
         return extensionSettings().getBoolean(MYTHIC_MOB_PREFIX + ".block-non-arena-mythic-mob", true);
+    }
+
+    public static List<String> getWorldsBlockNonArenaMythicMob() {
+        return (List<String>) getAsList(extensionSettings().getConfigurationSection(MYTHIC_MOB_PREFIX), "block-non-arena-mythic-mob-on-world");
     }
 
     public static Boolean isDiscordSrvEnabled() {

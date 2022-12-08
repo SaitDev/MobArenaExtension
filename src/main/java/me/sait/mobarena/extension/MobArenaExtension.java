@@ -103,11 +103,11 @@ public final class MobArenaExtension extends JavaPlugin {
                 enableExtension(extension);
             }
         } catch (RuntimeException e) {
-            LogHelper.log(null, LogLevel.CRITICAL, e);
+            LogHelper.log(e.getMessage(), LogLevel.CRITICAL, e);
             try {
                 disableExtension(extension);
             } catch (RuntimeException ex) {
-                LogHelper.error(null, ex);
+                LogHelper.error(ex.getMessage(), ex);
             }
             return false;
         }

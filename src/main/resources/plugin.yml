@@ -14,3 +14,10 @@ commands:
     usage: |
       /max reload
     aliases: [max, maex, mae]
+permissions:
+  mobarena.extension.*:
+    default: false
+    children:
+      mobarena.extension.reload:
+        description: Reload MA.Ex plugin
+        default: op
