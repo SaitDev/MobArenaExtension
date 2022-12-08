@@ -1,6 +1,7 @@
 package me.sait.mobarena.extension.integration.mythicmob;
 
 import com.garbagemule.MobArena.framework.Arena;
+import com.google.common.base.MoreObjects;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.bukkit.events.MythicMobSpawnEvent;
 import io.lumine.mythic.bukkit.events.MythicReloadedEvent;
@@ -11,11 +12,14 @@ import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.integration.mythicmob.MythicMobsAdapter;
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
+import me.sait.mobarena.extension.utils.CommonUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class MythicMobListener implements Listener {
@@ -28,6 +32,11 @@ public class MythicMobListener implements Listener {
             LogHelper.debug("A mythic mob spawned, mythic: {0}, entity: {1}",
                     event.getMobType().getInternalName(),
                     event.getMobType().getEntityType().toString());
+
+            List<String> worlds = ConfigManager.getWorldsBlockNonArenaMythicMob();
+            if (CommonUtils.isNotEmptyList(worlds) && !worlds.contains(event.getLocation().getWorld().getName())) {
+                return;
+            }
 
             if (mythicMobsAdapter.getMythicMobEntityManager().isInArena(event.getEntity())) {
                 //this is arena mob. no more checking need

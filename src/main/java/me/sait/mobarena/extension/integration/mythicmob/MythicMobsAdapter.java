@@ -78,7 +78,7 @@ public class MythicMobsAdapter implements Integration {
         Bukkit.getServer().getPluginManager().registerEvents(mythicMobListener, extension);
         listeners.add(mythicMobListener);
 
-        val mobArenaMythicMobListener = new MobArenaMythicMobListener(this);
+        val mobArenaMythicMobListener = new MobArenaMMListener(this);
         Bukkit.getServer().getPluginManager().registerEvents(mobArenaMythicMobListener, extension);
         listeners.add(mobArenaMythicMobListener);
     }
