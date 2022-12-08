@@ -11,7 +11,7 @@ Extend the supporting for 3rd pt plugins or additional features
 ### Supported Plugins
 
 `MythicMobs`
-* Install MythicMobs, requires version 5 onward. Then create cool mobs ([docs](https://mythicmobs.net/manual/) on their offical website)
+* Install MythicMobs, requires version 5.2 onward. Then create cool mobs ([docs](https://mythicmobs.net/manual/) on their offical website)
 * Reload extension `/mobarenaextension reload` (restart server if using version before 0.3)
 * Use mythic mob's name in arena waves config
 
