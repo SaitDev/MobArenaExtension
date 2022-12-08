@@ -93,22 +93,35 @@ public class MythicMobsAdapter implements Integration {
     private void registerMobs() {
         Collection<MythicMob> mmMobs = MythicBukkit.inst().getMobManager().getMobTypes();
         for (MythicMob mob : mmMobs) {
-            String creatureKey = MythicMobCreature.getCreatureKey(mob);
-            MACreature existedCreature = MACreature.fromString(creatureKey);
-            if (existedCreature != null) {
-                if (existedCreature instanceof MythicMobCreature) {
-                    throw new IllegalArgumentException("Can not register mythic mobs with similar name: " + mob.getInternalName());
-                } else {
-                    originalMACreatures.put(creatureKey, existedCreature);
-                }
+            RuntimeException lastEx = null;
+            try {
+                registerMob(mob);
+            } catch (RuntimeException e) {
+                LogHelper.error("Unable to load mob {0} for MythicMob extension");
+                lastEx = e;
             }
+            if (lastEx != null) throw lastEx;
+        }
+    }
 
-            MythicMobCreature mmCreature = new MythicMobCreature(this, mob);
-            if (mmCreature.isLivingEntity()) {
-                MythicMobCreature.register(creatureKey, mmCreature);
-                registeredMobs.add(mob);
-                LogHelper.debug("Registered mythic mob: {0}", mob.getInternalName());
+    private void registerMob(MythicMob mob) {
+        //cache
+        String creatureKey = MythicMobCreature.getCreatureKey(mob);
+        MACreature existedCreature = MACreature.fromString(creatureKey);
+        if (existedCreature != null) {
+            if (existedCreature instanceof MythicMobCreature) {
+                throw new IllegalArgumentException("Can not register mythic mobs with similar name: " + mob.getInternalName());
+            } else {
+                originalMACreatures.put(creatureKey, existedCreature);
             }
+        }
+
+        //register
+        MythicMobCreature mmCreature = new MythicMobCreature(this, mob);
+        if (mmCreature.isLivingEntity()) {
+            MythicMobCreature.register(creatureKey, mmCreature);
+            registeredMobs.add(mob);
+            LogHelper.debug("Registered mythic mob: {0}", mob.getInternalName());
         }
     }
 

@@ -7,7 +7,6 @@ import io.lumine.mythic.api.mobs.MythicMob;
 import io.lumine.mythic.api.mobs.entities.MythicEntityType;
 import io.lumine.mythic.bukkit.MythicBukkit;
 import lombok.Getter;
-import lombok.val;
 import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.log.LogHelper;
 import org.bukkit.Location;
@@ -17,11 +16,29 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MythicMobCreature extends MACreature {
+    private static final Map<String, EntityType> MYTHIC_ENTITIES = new HashMap<>();
     private final MythicMobsAdapter mythicMobsAdapter;
     private final MythicMob mythicMob;
     @Getter
     private final boolean isLivingEntity;
+    static {
+        MYTHIC_ENTITIES.put(MythicEntityType.BABY_DROWNED.name(), EntityType.DROWNED);
+        MYTHIC_ENTITIES.put(MythicEntityType.BABY_HUSK.name(), EntityType.HUSK);
+        MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIGLIN.name(), EntityType.PIGLIN);
+        MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIGLIN_BRUTE.name(), EntityType.PIGLIN_BRUTE);
+        MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIG_ZOMBIE.name(), EntityType.ZOMBIFIED_PIGLIN);
+        MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIG_ZOMBIE_VILLAGER.name(), EntityType.ZOMBIFIED_PIGLIN);
+        MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOGLIN.name(), EntityType.ZOGLIN);
+        MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOMBIE.name(), EntityType.ZOMBIE);
+        MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOMBIE_VILLAGER.name(), EntityType.ZOMBIE_VILLAGER);
+        MYTHIC_ENTITIES.put(MythicEntityType.PIG_ZOMBIE.name(), EntityType.ZOMBIFIED_PIGLIN);
+        MYTHIC_ENTITIES.put(MythicEntityType.PIG_ZOMBIE_VILLAGER.name(), EntityType.ZOMBIFIED_PIGLIN);
+        MYTHIC_ENTITIES.put(MythicEntityType.VINDIOCELOTOR.name(), EntityType.VINDICATOR);
+    }
 
     public MythicMobCreature(MythicMobsAdapter mythicMobsAdapter, MythicMob mythicMob) {
         super(toEntityType(mythicMob), mythicMob.getInternalName());
@@ -81,7 +98,7 @@ public class MythicMobCreature extends MACreature {
         //MythicEntityType ~ EntityType
         //BukkitEntityType.getMythicEntity()
         //MythicMob had some weird added entity type which are diff name with original EntityType
-        /** TODO manual mapping
+        /**
          * BABY_DROWNED
          * BABY_HUSK
          * BABY_PIGLIN
@@ -91,13 +108,19 @@ public class MythicMobCreature extends MACreature {
          * BABY_ZOGLIN
          * BABY_ZOMBIE
          * BABY_ZOMBIE_VILLAGER
-         * CUSTOM
-         * ITEM
          * PIG_ZOMBIE
          * PIG_ZOMBIE_VILLAGER
          * VINDIOCELOTOR
+         * CUSTOM
+         * ITEM
          */
-        val entityType = EntityType.valueOf(mmEntityType.toUpperCase());
+        EntityType entityType = null;
+        try {
+            entityType = EntityType.valueOf(mmEntityType.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            entityType = MYTHIC_ENTITIES.get(mmEntityType);
+        }
+        //null EntityType doesnt affect MobArena core, but may affect other plugins that integrate directly with MA
         return entityType;
     }
 }
