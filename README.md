@@ -1,4 +1,4 @@
-# Mob Arena Extension  [![Build status](https://github.com/SaitDev/MobArenaExtension/actions/workflows/snapshot.yml/badge.svg)](https://github.com/SaitDev/MobArenaExtension/actions/workflows/maven.yml)
+# Mob Arena Extension  [![Build status](https://github.com/SaitDev/MobArenaExtension/actions/workflows/snapshot.yml/badge.svg)](https://github.com/SaitDev/MobArenaExtension/actions/workflows/snapshot.yml)
 
 Extend the supporting for 3rd pt plugins or additional features
 
@@ -12,7 +12,7 @@ Extend the supporting for 3rd pt plugins or additional features
 
 `MythicMobs`
 * Install MythicMobs ver 5.2 up. Then create your cool mobs ([docs](https://mythicmobs.net/manual/) on their offical website)
-* Reload extension `/mobarenaextension reload` (restart server if using version before 0.3)
+* Reload extension `/mobarenaextension reload` (restart server if using extension version before 0.3)
 * Use mythic mob's name in arena waves config
 
 (Check [Known issues](#Known-Issues))
