@@ -97,7 +97,7 @@ public class MythicMobsAdapter implements Integration {
             try {
                 registerMob(mob);
             } catch (RuntimeException e) {
-                LogHelper.error("Unable to load mob {0} for MythicMob extension");
+                LogHelper.error("Unable to load mob {0} for MythicMob extension", mob.getInternalName());
                 lastEx = e;
             }
             if (lastEx != null) throw lastEx;
@@ -110,7 +110,11 @@ public class MythicMobsAdapter implements Integration {
         MACreature existedCreature = MACreature.fromString(creatureKey);
         if (existedCreature != null) {
             if (existedCreature instanceof MythicMobCreature) {
-                throw new IllegalArgumentException("Can not register mythic mobs with similar name: " + mob.getInternalName());
+                LogHelper.error("Can not register mythic mobs with similar name: {0}, {1}",
+                        mob.getInternalName(),
+                        ((MythicMobCreature)existedCreature).getMythicMob().getInternalName());
+                //unregister both to avoid confused/misused
+                unregisterMob(((MythicMobCreature) existedCreature).getMythicMob());
             } else {
                 originalMACreatures.put(creatureKey, existedCreature);
             }
@@ -127,15 +131,19 @@ public class MythicMobsAdapter implements Integration {
 
     private void unregisterMobs() {
         for (MythicMob registeredMob : registeredMobs.toArray(new MythicMob[0])) {
-            String creatureKey = MythicMobCreature.getCreatureKey(registeredMob);
-            MACreature originalMACreature = originalMACreatures.get(creatureKey);
-            if (originalMACreature == null || originalMACreature instanceof MythicMobCreature) {
-                MythicMobCreature.register(creatureKey, null);
-            } else {
-                MythicMobCreature.register(creatureKey, originalMACreature);
-            }
-            registeredMobs.remove(registeredMob);
+            unregisterMob(registeredMob);
         }
+    }
+
+    private void unregisterMob(MythicMob registeredMob) {
+        String creatureKey = MythicMobCreature.getCreatureKey(registeredMob);
+        MACreature originalMACreature = originalMACreatures.get(creatureKey);
+        if (originalMACreature == null || originalMACreature instanceof MythicMobCreature) {
+            MythicMobCreature.register(creatureKey, null);
+        } else {
+            MythicMobCreature.register(creatureKey, originalMACreature);
+        }
+        registeredMobs.remove(registeredMob);
     }
 
 }

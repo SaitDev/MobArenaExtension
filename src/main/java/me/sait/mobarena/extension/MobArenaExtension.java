@@ -165,13 +165,4 @@ public final class MobArenaExtension extends JavaPlugin {
         registerExtension(discordSrvAdapter);
     }
 
-    private void disableDiscordSrv() {
-        if (configManager.isDiscordSrvEnabled() &&
-                getServer().getPluginManager().isPluginEnabled(DiscordSrvAdapter.PLUGIN_NAME) &&
-                discordSrvAdapter != null
-        ) {
-            discordSrvAdapter.onDisable();
-            extensions.remove(discordSrvAdapter);
-        }
-    }
 }

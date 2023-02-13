@@ -6,6 +6,7 @@ import io.lumine.mythic.api.exceptions.InvalidMobTypeException;
 import io.lumine.mythic.api.mobs.MythicMob;
 import io.lumine.mythic.api.mobs.entities.MythicEntityType;
 import io.lumine.mythic.bukkit.MythicBukkit;
+import lombok.AccessLevel;
 import lombok.Getter;
 import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.log.LogHelper;
@@ -22,6 +23,7 @@ import java.util.Map;
 public class MythicMobCreature extends MACreature {
     private static final Map<String, EntityType> MYTHIC_ENTITIES = new HashMap<>();
     private final MythicMobsAdapter mythicMobsAdapter;
+    @Getter(AccessLevel.PACKAGE)
     private final MythicMob mythicMob;
     @Getter
     private final boolean isLivingEntity;
