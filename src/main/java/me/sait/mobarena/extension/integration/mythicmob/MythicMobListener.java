@@ -49,7 +49,7 @@ public class MythicMobListener implements Listener {
             }
 
             if (am.getParent() != null) {
-                Entity parent = am.getParent().getEntity().getBukkitEntity();
+                Entity parent = am.getParent().get().getBukkitEntity();
                 ActiveMob parentMM = MythicBukkit.inst().getAPIHelper().getMythicMobInstance(parent);
                 if (parentMM != null) {
                     LogHelper.debug("{0} spawned via skill Summon by {1}",

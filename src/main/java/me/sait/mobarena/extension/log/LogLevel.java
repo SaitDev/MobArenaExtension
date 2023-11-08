@@ -4,9 +4,9 @@ public enum LogLevel {
     DEBUG,
     DETAIL,
     USEFUL,
-    WARNING,
-    ERROR,
-    CRITICAL;
+    WARNING, //some features may not work, less attention required
+    ERROR, //some features won't work, need correcting
+    CRITICAL; //whole module/plugin won't work
 
     public static LogLevel getHighestPriority() {
         LogLevel[] values = LogLevel.values();
