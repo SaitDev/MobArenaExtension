@@ -20,6 +20,8 @@ import org.bukkit.entity.LivingEntity;
 import java.util.HashMap;
 import java.util.Map;
 
+import static me.sait.mobarena.extension.utils.CommonUtils.ignoreException;
+
 public class MythicMobCreature extends MACreature {
     private static final Map<String, EntityType> MYTHIC_ENTITIES = new HashMap<>();
     private final MythicMobsAdapter mythicMobsAdapter;
@@ -28,18 +30,22 @@ public class MythicMobCreature extends MACreature {
     @Getter
     private final boolean isLivingEntity;
     static {
-        MYTHIC_ENTITIES.put(MythicEntityType.BABY_DROWNED.name(), EntityType.DROWNED);
-        MYTHIC_ENTITIES.put(MythicEntityType.BABY_HUSK.name(), EntityType.HUSK);
-        MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIGLIN.name(), EntityType.PIGLIN);
-        MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIGLIN_BRUTE.name(), EntityType.PIGLIN_BRUTE);
-        MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIG_ZOMBIE.name(), EntityType.ZOMBIFIED_PIGLIN);
-        MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIG_ZOMBIE_VILLAGER.name(), EntityType.ZOMBIFIED_PIGLIN);
-        MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOGLIN.name(), EntityType.ZOGLIN);
-        MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOMBIE.name(), EntityType.ZOMBIE);
-        MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOMBIE_VILLAGER.name(), EntityType.ZOMBIE_VILLAGER);
-        MYTHIC_ENTITIES.put(MythicEntityType.PIG_ZOMBIE.name(), EntityType.ZOMBIFIED_PIGLIN);
-        MYTHIC_ENTITIES.put(MythicEntityType.PIG_ZOMBIE_VILLAGER.name(), EntityType.ZOMBIFIED_PIGLIN);
-        MYTHIC_ENTITIES.put(MythicEntityType.VINDIOCELOTOR.name(), EntityType.VINDICATOR);
+        //attempt to keep extension running if entity is removed in the future
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_DROWNED.name(), EntityType.DROWNED));
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_HUSK.name(), EntityType.HUSK));
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIGLIN.name(), EntityType.PIGLIN));
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIGLIN_BRUTE.name(), EntityType.PIGLIN_BRUTE));
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIG_ZOMBIE.name(), EntityType.ZOMBIFIED_PIGLIN));
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIG_ZOMBIE_VILLAGER.name(), EntityType.ZOMBIFIED_PIGLIN));
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOGLIN.name(), EntityType.ZOGLIN));
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOMBIE.name(), EntityType.ZOMBIE));
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOMBIE_VILLAGER.name(), EntityType.ZOMBIE_VILLAGER));
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.ZOMBIFIED_PIGLIN_VILLAGER.name(), EntityType.ZOMBIFIED_PIGLIN));
+        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.VINDIOCELOTOR.name(), EntityType.VINDICATOR));
+        /**
+         * CUSTOM
+         * ITEM
+         */
     }
 
     public MythicMobCreature(MythicMobsAdapter mythicMobsAdapter, MythicMob mythicMob) {
@@ -100,22 +106,14 @@ public class MythicMobCreature extends MACreature {
         //MythicEntityType ~ EntityType
         //BukkitEntityType.getMythicEntity()
         //MythicMob had some weird added entity type which are diff name with original EntityType
-        /**
-         * BABY_DROWNED
-         * BABY_HUSK
-         * BABY_PIGLIN
-         * BABY_PIGLIN_BRUTE
-         * BABY_PIG_ZOMBIE
-         * BABY_PIG_ZOMBIE_VILLAGER
-         * BABY_ZOGLIN
-         * BABY_ZOMBIE
-         * BABY_ZOMBIE_VILLAGER
-         * PIG_ZOMBIE
-         * PIG_ZOMBIE_VILLAGER
-         * VINDIOCELOTOR
-         * CUSTOM
-         * ITEM
-         */
+        //use bellow code to verify
+        //for (io.lumine.mythic.api.mobs.entities.MythicEntityType value : io.lumine.mythic.api.mobs.entities.MythicEntityType.values()) {
+        //            try {
+        //                EntityType.valueOf(value.name().toUpperCase());
+        //            } catch (Exception e) {
+        //                LogHelper.error(value.name(), e);
+        //            }
+        //        }
         EntityType entityType = null;
         try {
             entityType = EntityType.valueOf(mmEntityType.toUpperCase());
