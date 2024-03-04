@@ -22,7 +22,7 @@ public class CommonUtils {
             if (function != null) {
                 function.run();
             }
-        } catch (RuntimeException e) {
+        } catch (Throwable e) {
             LogHelper.log(e.getMessage(), LogLevel.WARNING, e);
         }
     }
