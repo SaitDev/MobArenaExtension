@@ -69,6 +69,14 @@ public class MythicMobsAdapter implements Integration {
         }
     }
 
+    public String getMythicMobsVersion() {
+        if (!Bukkit.getServer().getPluginManager().isPluginEnabled(PLUGIN_NAME)) {
+            LogHelper.warn("MythicMobs plugin is not enabled");
+            return null;
+        }
+        return MythicBukkit.inst().getVersion();
+    }
+
     public void reload() {
         extension.reloadExtension(this);
     }

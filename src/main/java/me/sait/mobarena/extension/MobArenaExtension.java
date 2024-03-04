@@ -142,7 +142,7 @@ public final class MobArenaExtension extends JavaPlugin {
     }
 
     private void startServices() {
-        metricsService = new MetricsService(this);
+        metricsService = new MetricsService(this, mythicMobsAdapter);
         metricsService.start();
     }
 
