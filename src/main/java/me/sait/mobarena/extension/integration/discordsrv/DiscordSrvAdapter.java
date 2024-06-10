@@ -5,14 +5,14 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.sait.mobarena.core.MobArenaAdapter;
-import me.sait.mobarena.core.api.Integration;
+import me.sait.mobarena.core.api.Extension;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
 import org.bukkit.Bukkit;
 
 @RequiredArgsConstructor
-public class DiscordSrvAdapter implements Integration {
+public class DiscordSrvAdapter implements Extension {
     public static final String PLUGIN_NAME = "DiscordSRV";
     @Getter(AccessLevel.PACKAGE)
     private final MobArenaAdapter mobArenaAdapter;

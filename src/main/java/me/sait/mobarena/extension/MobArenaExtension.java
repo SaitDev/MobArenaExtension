@@ -2,7 +2,7 @@ package me.sait.mobarena.extension;
 
 import com.garbagemule.MobArena.MobArena;
 import me.sait.mobarena.core.MobArenaAdapter;
-import me.sait.mobarena.core.api.Integration;
+import me.sait.mobarena.core.api.Extension;
 import me.sait.mobarena.extension.commands.CommandHandler;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.config.Constants;
@@ -26,7 +26,7 @@ public final class MobArenaExtension extends JavaPlugin {
     /**
      * integrated module - running
      */
-    private static Map<Integration, Boolean> extensions = new HashMap<>();
+    private final static Map<Extension, Boolean> extensions = new HashMap<>();
     private MythicMobsAdapter mythicMobsAdapter;
     private DiscordSrvAdapter discordSrvAdapter;
 
@@ -56,9 +56,9 @@ public final class MobArenaExtension extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        for (Integration integration : extensions.keySet()) {
-            if (Boolean.TRUE.equals(extensions.get(integration))) {
-                disableExtension(integration);
+        for (Extension extension : extensions.keySet()) {
+            if (Boolean.TRUE.equals(extensions.get(extension))) {
+                disableExtension(extension);
             }
         }
     }
@@ -90,7 +90,7 @@ public final class MobArenaExtension extends JavaPlugin {
      * @param extension
      * @return whether its successfully registered (but not mean enabled or not. @see MobArenaExtension.extensions)
      */
-    public static boolean registerExtension(Integration extension) {
+    public static boolean registerExtension(Extension extension) {
         if (extension == null) return false;
 
         if (extensions.containsKey(extension)) {
@@ -114,7 +114,7 @@ public final class MobArenaExtension extends JavaPlugin {
         return true;
     }
 
-    public void reloadExtension(Integration extension) {
+    public void reloadExtension(Extension extension) {
         if (Boolean.TRUE.equals(extensions.get(extension))) {
             disableExtension(extension);
         }
@@ -125,17 +125,17 @@ public final class MobArenaExtension extends JavaPlugin {
 
     private void reloadExtensions() {
         LogHelper.log("Reloading extensions", LogLevel.DETAIL);
-        for (Integration integration : extensions.keySet()) {
-            reloadExtension(integration);
+        for (Extension extension : extensions.keySet()) {
+            reloadExtension(extension);
         }
     }
 
-    private static void enableExtension(Integration extension) {
+    private static void enableExtension(Extension extension) {
         LogHelper.debug("Starting extension {0}", extension.getClass().getSimpleName());
         extension.onEnable();
         extensions.put(extension, true);
     }
-    private static void disableExtension(Integration extension) {
+    private static void disableExtension(Extension extension) {
         LogHelper.debug("Stopping extension {0}", extension.getClass().getSimpleName());
         extension.onDisable();
         extensions.put(extension, false);

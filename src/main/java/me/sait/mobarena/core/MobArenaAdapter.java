@@ -3,14 +3,14 @@ package me.sait.mobarena.core;
 import com.garbagemule.MobArena.MobArena;
 import com.garbagemule.MobArena.framework.Arena;
 import lombok.RequiredArgsConstructor;
-import me.sait.mobarena.core.api.Integration;
+import me.sait.mobarena.core.api.Extension;
 import me.sait.mobarena.extension.log.LogHelper;
 import me.sait.mobarena.extension.log.LogLevel;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 @RequiredArgsConstructor
-public class MobArenaAdapter implements Integration {
+public class MobArenaAdapter implements Extension {
     private final MobArena mobArena;
 
     @Override
