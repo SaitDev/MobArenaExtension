@@ -1,6 +1,6 @@
 package me.sait.mobarena.core.api;
 
-public interface Integration {
+public interface Extension {
     boolean shouldEnable();
 
     void onEnable();

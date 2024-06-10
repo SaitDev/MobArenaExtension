@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import me.sait.mobarena.core.MobArenaAdapter;
-import me.sait.mobarena.core.api.Integration;
+import me.sait.mobarena.core.api.Extension;
 import me.sait.mobarena.extension.MobArenaExtension;
 import me.sait.mobarena.extension.config.ConfigManager;
 import me.sait.mobarena.extension.log.LogHelper;
@@ -27,7 +27,7 @@ import java.util.Set;
 
 
 @RequiredArgsConstructor
-public class MythicMobsAdapter implements Integration {
+public class MythicMobsAdapter implements Extension {
     public static final String PLUGIN_NAME = "MythicMobs";
     private final MobArenaExtension extension;
     @Getter(AccessLevel.PACKAGE)
