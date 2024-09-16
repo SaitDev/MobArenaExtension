@@ -3,7 +3,7 @@ general:
   log-level: 2
 extension:
   mythicmob:
-    enable: false
+    enable: true
     #any mythic mobs spawn inside arena but ain't a mob of arena will be removed
     block-non-arena-mythic-mob: true
     block-non-arena-mythic-mob-on-world: []
