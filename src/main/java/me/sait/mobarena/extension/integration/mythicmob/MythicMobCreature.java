@@ -31,18 +31,17 @@ public class MythicMobCreature extends MACreature {
     private final boolean isLivingEntity;
     static {
         //attempt to keep extension running if entity is removed in the future
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_DROWNED.name(), EntityType.DROWNED));
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_HUSK.name(), EntityType.HUSK));
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIGLIN.name(), EntityType.PIGLIN));
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIGLIN_BRUTE.name(), EntityType.PIGLIN_BRUTE));
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIG_ZOMBIE.name(), EntityType.ZOMBIFIED_PIGLIN));
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_PIG_ZOMBIE_VILLAGER.name(), EntityType.ZOMBIFIED_PIGLIN));
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOGLIN.name(), EntityType.ZOGLIN));
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOMBIE.name(), EntityType.ZOMBIE));
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.BABY_ZOMBIE_VILLAGER.name(), EntityType.ZOMBIE_VILLAGER));
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.ZOMBIFIED_PIGLIN_VILLAGER.name(), EntityType.ZOMBIFIED_PIGLIN));
-        ignoreException(() -> MYTHIC_ENTITIES.put(MythicEntityType.VINDIOCELOTOR.name(), EntityType.VINDICATOR));
-        /**
+        MYTHIC_ENTITIES.put("BABY_DROWNED", EntityType.DROWNED);
+        MYTHIC_ENTITIES.put("BABY_HUSK", EntityType.HUSK);
+        MYTHIC_ENTITIES.put("BABY_PIGLIN", EntityType.PIGLIN);
+        MYTHIC_ENTITIES.put("BABY_PIGLIN_BRUTE", EntityType.PIGLIN_BRUTE);
+        MYTHIC_ENTITIES.put("BABY_PIG_ZOMBIE", EntityType.ZOMBIFIED_PIGLIN);
+        MYTHIC_ENTITIES.put("BABY_PIG_ZOMBIE_VILLAGER", EntityType.ZOMBIFIED_PIGLIN);
+        MYTHIC_ENTITIES.put("BABY_ZOGLIN", EntityType.ZOGLIN);
+        MYTHIC_ENTITIES.put("BABY_ZOMBIE", EntityType.ZOMBIE);
+        MYTHIC_ENTITIES.put("BABY_ZOMBIE_VILLAGER", EntityType.ZOMBIE_VILLAGER);
+        MYTHIC_ENTITIES.put("ZOMBIFIED_PIGLIN_VILLAGER", EntityType.ZOMBIFIED_PIGLIN);
+        MYTHIC_ENTITIES.put("VINDIOCELOTOR", EntityType.VINDICATOR);        /**
          * CUSTOM
          * ITEM
          */
